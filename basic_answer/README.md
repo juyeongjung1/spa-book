@@ -35,10 +35,10 @@ npm start
 
 `npm start` と `npm run dev` は、どちらもnodemonで `server.js` を起動します。
 
-ブラウザで `http://localhost:3005/` を開き、トップページが表示されることを確認します。
+ブラウザで `http://localhost:3015/` を開き、トップページが表示されることを確認します。
 
 API確認用URL:
 
 ```text
-http://localhost:3005/api/test
+http://localhost:3015/api/test
 ```

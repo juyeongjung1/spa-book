@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3005;
+const port = process.env.PORT || 3015;
 const indexPath = path.join(__dirname, '..', 'index.html');
 
 // JSON形式で送信されたリクエストボディを受け取れるようにします。
