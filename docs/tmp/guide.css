@@ -111,6 +111,12 @@ h3 {
     margin: 9mm 0 4mm;
     padding-bottom: 1.5mm;
     border-bottom: 1px solid var(--line);
+    break-before: page;
+}
+
+h2 + h3 {
+    break-before: avoid;
+    margin-top: 0;
 }
 
 h4 {

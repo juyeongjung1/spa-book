@@ -128,6 +128,12 @@ h3 {
     margin: 9mm 0 4mm;
     padding-bottom: 1.5mm;
     border-bottom: 1px solid var(--line);
+    break-before: page;
+}
+
+h2 + h3 {
+    break-before: avoid;
+    margin-top: 0;
 }
 
 h4 {
@@ -326,11 +332,14 @@ async function renderPdf() {
         }
     }
 
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+        headless: "new",
+        args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    });
     try {
         const page = await browser.newPage();
         
-        // デバッグ用ログの出力設定
+        // デバッグ用ログ of page
         page.on('console', msg => console.log('PAGE LOG:', msg.text()));
         page.on('pageerror', err => console.log('PAGE ERROR:', err.message));
         
@@ -338,7 +347,7 @@ async function renderPdf() {
         console.log(`Navigating to ${fileUrl}`);
         await page.goto(fileUrl, {
             waitUntil: "domcontentloaded",
-            timeout: 0,
+            timeout: 30000,
         });
         await page.emulateMediaType("print");
 
