@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+coverage/
+
+*.db
+*.sqlite
+*.sqlite3
+
+__pycache__/
+*.py[cod]
+
+.env
+.env.*
+
+.DS_Store
+Thumbs.db
