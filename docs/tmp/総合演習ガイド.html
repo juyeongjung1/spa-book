@@ -1,0 +1,3037 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja-JP" xml:lang="ja-JP">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SPA入門 総合演習ガイド</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="C:\work\SPA 総合演習\docs\tmp\guide.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SPA入門 総合演習ガイド</h1>
+</header>
+<h1 id="spa入門-総合演習ガイド">SPA入門 総合演習ガイド</h1>
+<h2 id="書籍管理システム">書籍管理システム</h2>
+<p>この総合演習では、SPA入門で学習した内容を使い、書籍情報を管理するSPAを作成します。</p>
+<p>題材は「書籍管理システム」です。メインテキストでは
+<code>products</code> テーブルを使った商品管理、演習ガイドでは
+<code>employee</code>
+テーブルを使った社員管理を扱いました。本演習では、それらの実装パターンを
+<code>books</code> テーブルへ置き換えて実装します。</p>
+<h2 id="1-演習概要">1. 演習概要</h2>
+<h3 id="11-目的">1.1 目的</h3>
+<p>HTML、CSS、JavaScript、Axios、Express、SQLite、Modal、Navigation
+APIを組み合わせ、画面遷移を伴わない書籍管理SPAを実装できるようになることを目的とします。</p>
+<h3 id="12-作成する機能">1.2 作成する機能</h3>
+<table>
+<thead>
+<tr>
+<th>機能ID</th>
+<th>機能名</th>
+<th>概要</th>
+<th>表現方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNC-000</td>
+<td>トップページ表示</td>
+<td>システム概要、主要操作ボタン、機能案内を表示する</td>
+<td>疑似画面</td>
+</tr>
+<tr>
+<td>FUNC-001</td>
+<td>書籍一覧表示</td>
+<td>登録済み書籍を一覧表示する</td>
+<td>疑似画面</td>
+</tr>
+<tr>
+<td>FUNC-002</td>
+<td>書籍検索</td>
+<td>書籍名のキーワードで一覧を絞り込む</td>
+<td>一覧画面内</td>
+</tr>
+<tr>
+<td>FUNC-003</td>
+<td>書籍詳細表示</td>
+<td>選択した書籍の詳細情報を表示する</td>
+<td>疑似画面</td>
+</tr>
+<tr>
+<td>FUNC-004</td>
+<td>書籍新規登録</td>
+<td>新しい書籍情報を登録する</td>
+<td>疑似画面</td>
+</tr>
+<tr>
+<td>FUNC-005</td>
+<td>書籍情報更新</td>
+<td>登録済み書籍情報を変更する</td>
+<td>Modal</td>
+</tr>
+<tr>
+<td>FUNC-006</td>
+<td>書籍削除</td>
+<td>登録済み書籍情報を削除する</td>
+<td>Modal</td>
+</tr>
+</tbody>
+</table>
+<p>基本機能のトップページでは、システム概要、主要操作ボタン、機能案内を表示します。主要操作ボタンから「書籍一覧」と「書籍登録」へ移動でき、共通レイアウトのサイドバーまたはモバイルメニューからも各機能へ移動できます。画面全体では、Bootstrap
+Iconsを使ってヘッダー、メニュー、ボタン、機能案内を見分けやすくします。</p>
+<p>追加機能の候補として、トップページに登録書籍数と最近登録された書籍を表示するダッシュボード機能を用意します。</p>
+<table>
+<thead>
+<tr>
+<th>追加機能ID</th>
+<th>追加機能名</th>
+<th>概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADD-001</td>
+<td>トップページ情報表示</td>
+<td>登録書籍数と最近登録された書籍をトップページに表示する</td>
+</tr>
+<tr>
+<td>ADD-002</td>
+<td>ログイン機能</td>
+<td>ユーザーIDとパスワードでログインできるようにする</td>
+</tr>
+<tr>
+<td>ADD-003</td>
+<td>権限管理</td>
+<td><code>role</code> によって利用できる機能を制御する</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-使用技術">1.3 使用技術</h3>
+<table>
+<thead>
+<tr>
+<th>分類</th>
+<th>使用技術</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>フロントエンド</td>
+<td>HTML / CSS / JavaScript</td>
+<td>素のJavaScriptで実装</td>
+</tr>
+<tr>
+<td>非同期通信</td>
+<td>Axios</td>
+<td>CDNから読み込み</td>
+</tr>
+<tr>
+<td>SPA制御</td>
+<td>Navigation API</td>
+<td>URLと画面表示を対応させる</td>
+</tr>
+<tr>
+<td>UI部品</td>
+<td>Modal / ボタン / Offcanvas / Bootstrap Icons</td>
+<td>テキストで扱った範囲を中心に使用</td>
+</tr>
+<tr>
+<td>バックエンド</td>
+<td>Node.js / Express</td>
+<td>REST APIを作成</td>
+</tr>
+<tr>
+<td>通信許可</td>
+<td>CORS</td>
+<td>フロントエンドからAPIへアクセスできるようにする</td>
+</tr>
+<tr>
+<td>データベース</td>
+<td>SQLite</td>
+<td><code>books.db</code> を使用</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-演習の進め方">2. 演習の進め方</h2>
+<h3 id="21-開発手順">2.1 開発手順</h3>
+<ol type="1">
+<li>スターターキットの構成を確認する。</li>
+<li>トップページの役割を確認する。</li>
+<li><code>books</code> テーブルと初期データを確認する。</li>
+<li>Expressで書籍管理APIを作成する。</li>
+<li>Navigation APIでURLと画面を対応させる。</li>
+<li>書籍一覧画面を作成する。</li>
+<li>書籍検索を追加する。</li>
+<li>書籍詳細画面を作成する。</li>
+<li>書籍登録画面を作成する。</li>
+<li>書籍更新Modalを作成する。</li>
+<li>書籍削除Modalを作成する。</li>
+<li>JavaScriptファイルをコンポーネント単位で整理する。</li>
+<li>動作確認を行う。</li>
+</ol>
+<p>トップページはスターターキットに実装済みの <code>showHome()</code>
+を確認するところから始めます。<code>showHome()</code>
+には、システム概要、主要操作ボタン、機能案内が実装されています。基本機能では、トップページをAPI通信の対象にはしません。登録書籍数や最近登録された書籍の表示は、追加機能として後から実装します。</p>
+<h3 id="22-提供物">2.2 提供物</h3>
+<table>
+<thead>
+<tr>
+<th>提供物</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BookProject/index.html</code></td>
+<td>ヘッダー、フッター、サイドバー、モバイルメニュー、Bootstrap
+Icons、<code>&lt;main id="app"&gt;</code> を実装済み</td>
+</tr>
+<tr>
+<td><code>BookProject/css/style.css</code></td>
+<td>画面レイアウト、トップページ、書籍管理用classを定義済み</td>
+</tr>
+<tr>
+<td><code>BookProject/js/app.js</code></td>
+<td><code>showHome()</code> のみ接続済み</td>
+</tr>
+<tr>
+<td><code>BookProject/js/components/home.js</code></td>
+<td>トップページのみ実装済み</td>
+</tr>
+<tr>
+<td><code>BookProject/images/</code></td>
+<td>書籍画像ファイル</td>
+</tr>
+<tr>
+<td><code>BookProject/db/books.sql</code></td>
+<td><code>books</code> テーブル作成SQLと初期データ</td>
+</tr>
+<tr>
+<td><code>BookProject/api/</code></td>
+<td>Express API作成用フォルダ</td>
+</tr>
+<tr>
+<td><code>BookProject/api/node_modules/</code></td>
+<td>依存パッケージをインストール済み</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-作成する主なファイル">2.3 作成する主なファイル</h3>
+<table>
+<thead>
+<tr>
+<th>ファイル</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>api/server.js</code></td>
+<td>Express APIを実装</td>
+</tr>
+<tr>
+<td><code>js/components/book-list.js</code></td>
+<td>書籍一覧・検索画面</td>
+</tr>
+<tr>
+<td><code>js/components/book-detail.js</code></td>
+<td>書籍詳細画面</td>
+</tr>
+<tr>
+<td><code>js/components/book-register.js</code></td>
+<td>書籍登録画面</td>
+</tr>
+<tr>
+<td><code>js/components/book-update-modal.js</code></td>
+<td>書籍更新Modal</td>
+</tr>
+<tr>
+<td><code>js/components/book-delete-modal.js</code></td>
+<td>書籍削除Modal</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-ユースケース">3. ユースケース</h2>
+<h3 id="31-ユースケース概要">3.1 ユースケース概要</h3>
+<p>書籍管理システムでは、書籍情報を一覧表示し、必要に応じて検索、詳細確認、登録、更新、削除を行います。</p>
+<p>本システムの基本機能では、ログイン機能や権限管理は実装対象外とします。ただし、追加機能の候補としてログイン機能と権限管理を想定しているため、後続の追加機能仕様で扱います。</p>
+<h3 id="32-アクター">3.2 アクター</h3>
+<table>
+<thead>
+<tr>
+<th>アクター</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>利用者</td>
+<td>書籍情報を管理する人。書籍の一覧確認、検索、詳細確認、登録、更新、削除を行う。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-ユースケース一覧">3.3 ユースケース一覧</h3>
+<table>
+<thead>
+<tr>
+<th>ユースケースID</th>
+<th>ユースケース名</th>
+<th>概要</th>
+<th>対応機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UC000</td>
+<td>トップページを表示する</td>
+<td>システム概要、主要操作ボタン、機能案内を確認する。</td>
+<td>FUNC-000</td>
+</tr>
+<tr>
+<td>UC001</td>
+<td>書籍一覧を表示する</td>
+<td>登録済みの書籍を一覧で確認する。</td>
+<td>FUNC-001</td>
+</tr>
+<tr>
+<td>UC002</td>
+<td>書籍を検索する</td>
+<td>書籍名のキーワードで一覧を絞り込む。</td>
+<td>FUNC-002</td>
+</tr>
+<tr>
+<td>UC003</td>
+<td>書籍詳細を表示する</td>
+<td>一覧で選択した書籍の詳細情報を確認する。</td>
+<td>FUNC-003</td>
+</tr>
+<tr>
+<td>UC004</td>
+<td>書籍を登録する</td>
+<td>新しい書籍情報を登録する。</td>
+<td>FUNC-004</td>
+</tr>
+<tr>
+<td>UC005</td>
+<td>書籍を更新する</td>
+<td>登録済みの書籍情報を変更する。</td>
+<td>FUNC-005</td>
+</tr>
+<tr>
+<td>UC006</td>
+<td>書籍を削除する</td>
+<td>登録済みの書籍情報を削除する。</td>
+<td>FUNC-006</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-ユースケース図">3.4 ユースケース図</h3>
+<pre class="mermaid"><code>flowchart LR
+    user[&quot;利用者&quot;]
+
+    subgraph system[&quot;書籍管理システム&quot;]
+        UC000[&quot;UC000\nトップページを表示する&quot;]
+        UC001[&quot;UC001\n書籍一覧を表示する&quot;]
+        UC002[&quot;UC002\n書籍を検索する&quot;]
+        UC003[&quot;UC003\n書籍詳細を表示する&quot;]
+        UC004[&quot;UC004\n書籍を登録する&quot;]
+        UC005[&quot;UC005\n書籍を更新する&quot;]
+        UC006[&quot;UC006\n書籍を削除する&quot;]
+    end
+
+    user --&gt; UC000
+    user --&gt; UC001
+    user --&gt; UC002
+    user --&gt; UC003
+    user --&gt; UC004
+    user --&gt; UC005
+    user --&gt; UC006
+
+    UC002 -. &quot;一覧画面で実行&quot; .-&gt; UC001
+    UC003 -. &quot;一覧から選択&quot; .-&gt; UC001
+    UC005 -. &quot;詳細画面から実行&quot; .-&gt; UC003
+    UC006 -. &quot;詳細画面から実行&quot; .-&gt; UC003</code></pre>
+<h2 id="4-ユースケース仕様書">4. ユースケース仕様書</h2>
+<h3 id="uc000-トップページを表示する">UC000 トップページを表示する</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユースケースID</td>
+<td>UC000</td>
+</tr>
+<tr>
+<td>ユースケース名</td>
+<td>トップページを表示する</td>
+</tr>
+<tr>
+<td>アクター</td>
+<td>利用者</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>システムの概要、主要操作、基本的な機能範囲を確認できるようにする。</td>
+</tr>
+<tr>
+<td>トリガー</td>
+<td>利用者がブラウザで <code>/</code>
+にアクセスする。または、サイドバーやモバイルメニューの「トップページ」をクリックする。</td>
+</tr>
+<tr>
+<td>事前条件</td>
+<td>APIサーバーが起動している。</td>
+</tr>
+<tr>
+<td>事後条件</td>
+<td>トップページが表示される。</td>
+</tr>
+<tr>
+<td>対応画面</td>
+<td>トップページ</td>
+</tr>
+<tr>
+<td>対応URL</td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td>対応API</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>対応ファイル</td>
+<td><code>js/components/home.js</code>, <code>js/app.js</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="基本フロー">基本フロー</h4>
+<ol type="1">
+<li>利用者が <code>/</code> にアクセスする。</li>
+<li><code>app.js</code> がURL <code>/</code>
+を判定し、<code>showHome()</code> を呼び出す。</li>
+<li><code>showHome()</code> がトップページのHTMLを作成する。</li>
+<li><code>id="app"</code> の要素にトップページを表示する。</li>
+<li>利用者は画面の説明と機能案内を読み、トップページ内の主要操作ボタン、サイドバー、またはモバイルメニューから操作を選択する。</li>
+</ol>
+<h4 id="代替フロー例外フロー">代替フロー・例外フロー</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/index.html</code> にアクセスした場合</td>
+<td><code>/</code> と同じトップページを表示する。</td>
+</tr>
+<tr>
+<td>モバイル幅で表示した場合</td>
+<td>サイドバーの代わりに三本線ボタンからモバイルメニューを開く。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="表示項目">表示項目</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>表示内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>システム名</td>
+<td>書籍管理システムであることを表示する。</td>
+</tr>
+<tr>
+<td>システム概要</td>
+<td>書籍情報の一覧、検索、詳細確認、登録、更新、削除を行うSPAであることを説明する。</td>
+</tr>
+<tr>
+<td>主要操作ボタン</td>
+<td>「書籍一覧を見る」「書籍を登録する」を表示し、トップページから主要画面へ移動できるようにする。</td>
+</tr>
+<tr>
+<td>機能案内</td>
+<td>一覧・検索、詳細確認、登録・更新・削除の3つをカード風に表示する。</td>
+</tr>
+<tr>
+<td>アイコン</td>
+<td>Bootstrap
+Iconsを使い、システム名、メニュー、ボタン、機能案内を視覚的に分かりやすくする。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="動作確認">動作確認</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code> にアクセスする</td>
+<td>トップページが表示される。</td>
+</tr>
+<tr>
+<td>「トップページ」をクリックする</td>
+<td>トップページが表示される。</td>
+</tr>
+<tr>
+<td>「書籍一覧を見る」をクリックする</td>
+<td>書籍一覧画面が表示される。</td>
+</tr>
+<tr>
+<td>「書籍を登録する」をクリックする</td>
+<td>書籍登録画面が表示される。</td>
+</tr>
+<tr>
+<td>トップページからサイドバーを確認する</td>
+<td>書籍一覧、書籍登録へ移動できるメニューが表示されている。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="追加機能候補">追加機能候補</h4>
+<table>
+<thead>
+<tr>
+<th>追加機能</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>登録書籍数表示</td>
+<td><code>books</code>
+テーブルの件数を取得し、トップページに表示する。</td>
+</tr>
+<tr>
+<td>最近登録された書籍表示</td>
+<td>登録順の新しい書籍を数件取得し、トップページに表示する。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="uc001-書籍一覧を表示する">UC001 書籍一覧を表示する</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユースケースID</td>
+<td>UC001</td>
+</tr>
+<tr>
+<td>ユースケース名</td>
+<td>書籍一覧を表示する</td>
+</tr>
+<tr>
+<td>アクター</td>
+<td>利用者</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>登録済みの書籍を一覧で確認できるようにする。</td>
+</tr>
+<tr>
+<td>トリガー</td>
+<td>利用者がサイドバーまたはモバイルメニューの「書籍一覧」をクリックする。</td>
+</tr>
+<tr>
+<td>事前条件</td>
+<td>APIサーバーが起動している。<code>books</code>
+テーブルが存在している。</td>
+</tr>
+<tr>
+<td>事後条件</td>
+<td>書籍一覧画面が表示される。登録済みの書籍が0件の場合は、0件であることが分かる表示になる。</td>
+</tr>
+<tr>
+<td>対応画面</td>
+<td>書籍一覧画面</td>
+</tr>
+<tr>
+<td>対応URL</td>
+<td><code>/books</code></td>
+</tr>
+<tr>
+<td>対応API</td>
+<td><code>GET /api/v1/books</code></td>
+</tr>
+<tr>
+<td>対応ファイル</td>
+<td><code>js/components/book-list.js</code>,
+<code>api/server.js</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="基本フロー-1">基本フロー</h4>
+<ol type="1">
+<li>利用者が「書籍一覧」を選択する。</li>
+<li><code>app.js</code> がURL <code>/books</code>
+を判定し、<code>showBookList()</code> を呼び出す。</li>
+<li><code>showBookList()</code> が <code>GET /api/v1/books</code>
+をAxiosで呼び出す。</li>
+<li>APIが <code>books</code> テーブルから書籍情報を取得する。</li>
+<li>APIが書籍情報の配列をJSONで返す。</li>
+<li>画面側で取得した配列を1件ずつHTML文字列に変換する。</li>
+<li>書籍一覧を画面に表示する。</li>
+</ol>
+<h4 id="代替フロー例外フロー-1">代替フロー・例外フロー</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>書籍が0件の場合</td>
+<td>一覧テーブルを空にするだけではなく、「登録されている書籍はありません。」などのメッセージを表示する。</td>
+</tr>
+<tr>
+<td>API通信に失敗した場合</td>
+<td>コンソールにエラーを出力し、画面には「書籍一覧を取得できませんでした。」と表示する。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="表示項目-1">表示項目</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>表示内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>画像</td>
+<td><code>image_path</code> を使い、書籍の表紙画像を表示する。</td>
+</tr>
+<tr>
+<td>書籍ID</td>
+<td><code>id</code> を表示する。</td>
+</tr>
+<tr>
+<td>書籍名</td>
+<td><code>title</code> を表示する。詳細画面へ移動するリンクにする。</td>
+</tr>
+<tr>
+<td>著者名</td>
+<td><code>author</code> を表示する。</td>
+</tr>
+<tr>
+<td>価格</td>
+<td><code>price</code> を表示する。</td>
+</tr>
+<tr>
+<td>出版社</td>
+<td><code>publisher</code> を表示する。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="動作確認-1">動作確認</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>トップページから「書籍一覧」をクリックする</td>
+<td>書籍一覧画面が表示される。</td>
+</tr>
+<tr>
+<td>初期データがある状態で表示する</td>
+<td>複数の書籍が一覧に表示される。</td>
+</tr>
+<tr>
+<td>書籍名リンクをクリックする</td>
+<td>ページ全体を再読み込みせず、詳細画面へ移動する。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="uc002-書籍を検索する">UC002 書籍を検索する</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユースケースID</td>
+<td>UC002</td>
+</tr>
+<tr>
+<td>ユースケース名</td>
+<td>書籍を検索する</td>
+</tr>
+<tr>
+<td>アクター</td>
+<td>利用者</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>書籍名の一部を使って、目的の書籍を探しやすくする。</td>
+</tr>
+<tr>
+<td>トリガー</td>
+<td>利用者が検索欄にキーワードを入力し、「検索」ボタンをクリックする。</td>
+</tr>
+<tr>
+<td>事前条件</td>
+<td>書籍一覧画面が表示されている。</td>
+</tr>
+<tr>
+<td>事後条件</td>
+<td>入力したキーワードに一致する書籍だけが一覧に表示される。</td>
+</tr>
+<tr>
+<td>対応画面</td>
+<td>書籍一覧画面</td>
+</tr>
+<tr>
+<td>対応URL</td>
+<td><code>/books</code></td>
+</tr>
+<tr>
+<td>対応API</td>
+<td><code>GET /api/v1/books?keyword=キーワード</code></td>
+</tr>
+<tr>
+<td>対応ファイル</td>
+<td><code>js/components/book-list.js</code>,
+<code>api/server.js</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="基本フロー-2">基本フロー</h4>
+<ol type="1">
+<li>利用者が検索欄にキーワードを入力する。</li>
+<li>利用者が「検索」ボタンをクリックする。</li>
+<li>画面側で検索欄の値を取得する。</li>
+<li><code>GET /api/v1/books?keyword=キーワード</code>
+をAxiosで呼び出す。</li>
+<li>APIが <code>title LIKE ?</code>
+を使って書籍名を部分一致検索する。</li>
+<li>APIが検索結果の配列をJSONで返す。</li>
+<li>画面側で一覧の表示内容を検索結果に置き換える。</li>
+</ol>
+<h4 id="代替フロー例外フロー-2">代替フロー・例外フロー</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>キーワードが空欄の場合</td>
+<td>全件検索として扱い、すべての書籍を表示する。</td>
+</tr>
+<tr>
+<td>検索結果が0件の場合</td>
+<td>「条件に一致する書籍はありません。」と表示する。</td>
+</tr>
+<tr>
+<td>API通信に失敗した場合</td>
+<td>コンソールにエラーを出力し、画面には「検索に失敗しました。」と表示する。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="入力項目">入力項目</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>キーワード</td>
+<td>書籍名に含まれる文字列。空欄も許可する。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="動作確認-2">動作確認</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存在する書籍名の一部で検索する</td>
+<td>一致する書籍だけが表示される。</td>
+</tr>
+<tr>
+<td>存在しないキーワードで検索する</td>
+<td>0件メッセージが表示される。</td>
+</tr>
+<tr>
+<td>空欄で検索する</td>
+<td>全件が表示される。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="uc003-書籍詳細を表示する">UC003 書籍詳細を表示する</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユースケースID</td>
+<td>UC003</td>
+</tr>
+<tr>
+<td>ユースケース名</td>
+<td>書籍詳細を表示する</td>
+</tr>
+<tr>
+<td>アクター</td>
+<td>利用者</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>選択した書籍の詳細情報を確認できるようにする。</td>
+</tr>
+<tr>
+<td>トリガー</td>
+<td>利用者が書籍一覧画面で書籍名リンクをクリックする。</td>
+</tr>
+<tr>
+<td>事前条件</td>
+<td>対象の書籍が <code>books</code> テーブルに存在している。</td>
+</tr>
+<tr>
+<td>事後条件</td>
+<td>書籍詳細画面が表示される。</td>
+</tr>
+<tr>
+<td>対応画面</td>
+<td>書籍詳細画面</td>
+</tr>
+<tr>
+<td>対応URL</td>
+<td><code>/books/{id}</code></td>
+</tr>
+<tr>
+<td>対応API</td>
+<td><code>GET /api/v1/books/:id</code></td>
+</tr>
+<tr>
+<td>対応ファイル</td>
+<td><code>js/components/book-detail.js</code>,
+<code>api/server.js</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="基本フロー-3">基本フロー</h4>
+<ol type="1">
+<li>利用者が一覧画面の書籍名リンクをクリックする。</li>
+<li>Navigation APIにより、URLが <code>/books/{id}</code> に変わる。</li>
+<li><code>app.js</code>
+がURLから書籍IDを取り出し、<code>showBookDetail(id)</code>
+を呼び出す。</li>
+<li><code>showBookDetail(id)</code> が
+<code>GET /api/v1/books/:id</code> をAxiosで呼び出す。</li>
+<li>APIが <code>books</code>
+テーブルから該当する書籍を1件取得する。</li>
+<li>APIが書籍オブジェクトをJSONで返す。</li>
+<li>画面側で書籍詳細を表示する。</li>
+<li>詳細画面に「更新」「削除」「一覧へ戻る」ボタンを表示する。</li>
+</ol>
+<h4 id="代替フロー例外フロー-3">代替フロー・例外フロー</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象IDの書籍が存在しない場合</td>
+<td>APIは404を返す。画面には「書籍情報を取得できませんでした。」と表示する。</td>
+</tr>
+<tr>
+<td>API通信に失敗した場合</td>
+<td>コンソールにエラーを出力し、一覧へ戻るボタンを表示する。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="表示項目-2">表示項目</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>表示内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>画像</td>
+<td><code>image_path</code> を使い、表紙画像を表示する。</td>
+</tr>
+<tr>
+<td>書籍ID</td>
+<td><code>id</code> を表示する。</td>
+</tr>
+<tr>
+<td>書籍名</td>
+<td><code>title</code> を表示する。</td>
+</tr>
+<tr>
+<td>著者名</td>
+<td><code>author</code> を表示する。</td>
+</tr>
+<tr>
+<td>価格</td>
+<td><code>price</code> を表示する。</td>
+</tr>
+<tr>
+<td>出版社</td>
+<td><code>publisher</code> を表示する。</td>
+</tr>
+<tr>
+<td>画像パス</td>
+<td><code>image_path</code> を表示する。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="動作確認-3">動作確認</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一覧から書籍名をクリックする</td>
+<td>詳細画面が表示される。</td>
+</tr>
+<tr>
+<td>詳細画面の「一覧へ戻る」をクリックする</td>
+<td>書籍一覧画面へ戻る。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="uc004-書籍を登録する">UC004 書籍を登録する</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユースケースID</td>
+<td>UC004</td>
+</tr>
+<tr>
+<td>ユースケース名</td>
+<td>書籍を登録する</td>
+</tr>
+<tr>
+<td>アクター</td>
+<td>利用者</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>新しい書籍情報をシステムに追加する。</td>
+</tr>
+<tr>
+<td>トリガー</td>
+<td>利用者がサイドバーまたはモバイルメニューの「書籍登録」をクリックする。</td>
+</tr>
+<tr>
+<td>事前条件</td>
+<td>APIサーバーが起動している。</td>
+</tr>
+<tr>
+<td>事後条件</td>
+<td>入力した書籍情報が <code>books</code>
+テーブルに登録される。登録後、書籍一覧画面へ移動する。</td>
+</tr>
+<tr>
+<td>対応画面</td>
+<td>書籍登録画面</td>
+</tr>
+<tr>
+<td>対応URL</td>
+<td><code>/books/new</code></td>
+</tr>
+<tr>
+<td>対応API</td>
+<td><code>POST /api/v1/books</code></td>
+</tr>
+<tr>
+<td>対応ファイル</td>
+<td><code>js/components/book-register.js</code>,
+<code>api/server.js</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="基本フロー-4">基本フロー</h4>
+<ol type="1">
+<li>利用者が「書籍登録」を選択する。</li>
+<li><code>app.js</code> がURL <code>/books/new</code>
+を判定し、<code>showBookRegister()</code> を呼び出す。</li>
+<li>画面に書籍登録フォームを表示する。</li>
+<li>利用者が書籍名、著者名、価格、出版社、画像パスを入力する。</li>
+<li>利用者が「登録」ボタンをクリックする。</li>
+<li>画面側で入力値を取得する。</li>
+<li>必須項目である書籍名、著者名、価格が入力されているか確認する。</li>
+<li><code>POST /api/v1/books</code> をAxiosで呼び出す。</li>
+<li>APIが <code>books</code> テーブルへ書籍情報を登録する。</li>
+<li>APIが登録した書籍IDをJSONで返す。</li>
+<li>画面側で登録完了を通知する。</li>
+<li>書籍一覧画面へ移動する。</li>
+</ol>
+<h4 id="代替フロー例外フロー-4">代替フロー・例外フロー</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>書籍名、著者名、価格のいずれかが未入力の場合</td>
+<td>APIを呼び出さず、画面に「データを入力してください。」と表示する。</td>
+</tr>
+<tr>
+<td>API側で必須項目不足を検出した場合</td>
+<td>APIは400を返す。画面側はエラーを表示する。</td>
+</tr>
+<tr>
+<td>API通信に失敗した場合</td>
+<td>コンソールにエラーを出力し、登録画面に留まる。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="入力項目-1">入力項目</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>必須</th>
+<th>入力例</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>書籍名</td>
+<td>○</td>
+<td>JavaScript入門</td>
+<td><code>title</code> として送信する。</td>
+</tr>
+<tr>
+<td>著者名</td>
+<td>○</td>
+<td>山田太郎</td>
+<td><code>author</code> として送信する。</td>
+</tr>
+<tr>
+<td>価格</td>
+<td>○</td>
+<td>2800</td>
+<td><code>price</code> として送信する。</td>
+</tr>
+<tr>
+<td>出版社</td>
+<td>-</td>
+<td>サンプル出版</td>
+<td><code>publisher</code> として送信する。</td>
+</tr>
+<tr>
+<td>画像パス</td>
+<td>-</td>
+<td><code>/images/1.png</code></td>
+<td><code>image_path</code> として送信する。入力欄の
+<code>placeholder</code> ではなく、入力欄の下に
+<code>※例：/images/1.png</code> と表示する。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="動作確認-4">動作確認</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>必須項目を入力して登録する</td>
+<td>書籍が登録され、一覧画面へ移動する。</td>
+</tr>
+<tr>
+<td>必須項目を空欄にして登録する</td>
+<td>エラーメッセージが表示され、登録されない。</td>
+</tr>
+<tr>
+<td>登録後に一覧画面を確認する</td>
+<td>登録した書籍が表示される。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="uc005-書籍を更新する">UC005 書籍を更新する</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユースケースID</td>
+<td>UC005</td>
+</tr>
+<tr>
+<td>ユースケース名</td>
+<td>書籍を更新する</td>
+</tr>
+<tr>
+<td>アクター</td>
+<td>利用者</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>登録済みの書籍情報を変更する。</td>
+</tr>
+<tr>
+<td>トリガー</td>
+<td>利用者が書籍詳細画面で「更新」ボタンをクリックする。</td>
+</tr>
+<tr>
+<td>事前条件</td>
+<td>書籍詳細画面が表示されている。対象の書籍が <code>books</code>
+テーブルに存在している。</td>
+</tr>
+<tr>
+<td>事後条件</td>
+<td>入力した内容で <code>books</code>
+テーブルの該当レコードが更新される。更新後、詳細画面に最新情報が表示される。</td>
+</tr>
+<tr>
+<td>対応画面</td>
+<td>書籍詳細画面、書籍更新Modal</td>
+</tr>
+<tr>
+<td>対応URL</td>
+<td><code>/books/{id}</code></td>
+</tr>
+<tr>
+<td>対応API</td>
+<td><code>PUT /api/v1/books/:id</code></td>
+</tr>
+<tr>
+<td>対応ファイル</td>
+<td><code>js/components/book-detail.js</code>,
+<code>js/components/book-update-modal.js</code>,
+<code>api/server.js</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="基本フロー-5">基本フロー</h4>
+<ol type="1">
+<li>利用者が書籍詳細画面を表示する。</li>
+<li>利用者が「更新」ボタンをクリックする。</li>
+<li><code>book-detail.js</code> が <code>openUpdateModal(book)</code>
+を呼び出す。</li>
+<li>更新Modalに現在の書籍情報を初期値として表示する。</li>
+<li>利用者が入力内容を変更する。</li>
+<li>利用者がModal内の「更新」ボタンをクリックする。</li>
+<li>画面側で入力値を取得する。</li>
+<li>必須項目である書籍名、著者名、価格が入力されているか確認する。</li>
+<li><code>PUT /api/v1/books/:id</code> をAxiosで呼び出す。</li>
+<li>APIが <code>books</code> テーブルの該当レコードを更新する。</li>
+<li>APIが更新完了メッセージをJSONで返す。</li>
+<li>画面側で更新完了を通知する。</li>
+<li>Modalを閉じる。</li>
+<li>現在の詳細画面を再読み込みし、更新後の情報を表示する。</li>
+</ol>
+<h4 id="代替フロー例外フロー-5">代替フロー・例外フロー</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>必須項目が未入力の場合</td>
+<td>APIを呼び出さず、Modal内に「データを入力してください。」と表示する。</td>
+</tr>
+<tr>
+<td>対象IDの書籍が存在しない場合</td>
+<td>APIは404相当のエラーを返す。画面側はエラーを表示する。</td>
+</tr>
+<tr>
+<td>API通信に失敗した場合</td>
+<td>コンソールにエラーを出力し、Modalを開いたままにする。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="入力項目-2">入力項目</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>必須</th>
+<th>初期値</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>書籍名</td>
+<td>○</td>
+<td>現在の <code>title</code></td>
+<td>変更可能。</td>
+</tr>
+<tr>
+<td>著者名</td>
+<td>○</td>
+<td>現在の <code>author</code></td>
+<td>変更可能。</td>
+</tr>
+<tr>
+<td>価格</td>
+<td>○</td>
+<td>現在の <code>price</code></td>
+<td>変更可能。</td>
+</tr>
+<tr>
+<td>出版社</td>
+<td>-</td>
+<td>現在の <code>publisher</code></td>
+<td>変更可能。</td>
+</tr>
+<tr>
+<td>画像パス</td>
+<td>-</td>
+<td>現在の <code>image_path</code></td>
+<td>変更可能。入力欄の下に <code>※例：/images/1.png</code>
+と表示する。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="動作確認-5">動作確認</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>詳細画面で更新ボタンを押す</td>
+<td>更新Modalが表示され、現在値が入力済みになっている。</td>
+</tr>
+<tr>
+<td>値を変更して更新する</td>
+<td>Modalが閉じ、詳細画面に更新後の情報が表示される。</td>
+</tr>
+<tr>
+<td>必須項目を空欄にして更新する</td>
+<td>Modal内にエラーメッセージが表示され、更新されない。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="uc006-書籍を削除する">UC006 書籍を削除する</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユースケースID</td>
+<td>UC006</td>
+</tr>
+<tr>
+<td>ユースケース名</td>
+<td>書籍を削除する</td>
+</tr>
+<tr>
+<td>アクター</td>
+<td>利用者</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>不要になった書籍情報を削除する。</td>
+</tr>
+<tr>
+<td>トリガー</td>
+<td>利用者が書籍詳細画面で「削除」ボタンをクリックする。</td>
+</tr>
+<tr>
+<td>事前条件</td>
+<td>書籍詳細画面が表示されている。対象の書籍が <code>books</code>
+テーブルに存在している。</td>
+</tr>
+<tr>
+<td>事後条件</td>
+<td>対象の書籍情報が <code>books</code>
+テーブルから削除される。削除後、書籍一覧画面へ移動する。</td>
+</tr>
+<tr>
+<td>対応画面</td>
+<td>書籍詳細画面、書籍削除Modal</td>
+</tr>
+<tr>
+<td>対応URL</td>
+<td><code>/books/{id}</code></td>
+</tr>
+<tr>
+<td>対応API</td>
+<td><code>DELETE /api/v1/books/:id</code></td>
+</tr>
+<tr>
+<td>対応ファイル</td>
+<td><code>js/components/book-detail.js</code>,
+<code>js/components/book-delete-modal.js</code>,
+<code>api/server.js</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="基本フロー-6">基本フロー</h4>
+<ol type="1">
+<li>利用者が書籍詳細画面を表示する。</li>
+<li>利用者が「削除」ボタンをクリックする。</li>
+<li><code>book-detail.js</code> が <code>openDeleteModal(book)</code>
+を呼び出す。</li>
+<li>削除確認Modalに削除対象の書籍名を表示する。</li>
+<li>利用者がModal内の「削除」ボタンをクリックする。</li>
+<li><code>DELETE /api/v1/books/:id</code> をAxiosで呼び出す。</li>
+<li>APIが <code>books</code> テーブルから該当レコードを削除する。</li>
+<li>APIが削除完了メッセージをJSONで返す。</li>
+<li>画面側で削除完了を通知する。</li>
+<li>Modalを閉じる。</li>
+<li>書籍一覧画面へ移動する。</li>
+</ol>
+<h4 id="代替フロー例外フロー-6">代替フロー・例外フロー</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>利用者が「キャンセル」または閉じるボタンをクリックした場合</td>
+<td>Modalを閉じる。削除APIは呼び出さない。</td>
+</tr>
+<tr>
+<td>対象IDの書籍が存在しない場合</td>
+<td>APIはエラーを返す。画面側はエラーを表示する。</td>
+</tr>
+<tr>
+<td>API通信に失敗した場合</td>
+<td>コンソールにエラーを出力し、Modalを開いたままにする。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="表示項目-3">表示項目</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>表示内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>確認メッセージ</td>
+<td>「{書籍名} を削除してもよろしいですか？」</td>
+</tr>
+<tr>
+<td>削除ボタン</td>
+<td>削除処理を実行する。</td>
+</tr>
+<tr>
+<td>キャンセルボタン</td>
+<td>削除せずModalを閉じる。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="動作確認-6">動作確認</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>詳細画面で削除ボタンを押す</td>
+<td>削除確認Modalが表示される。</td>
+</tr>
+<tr>
+<td>キャンセルする</td>
+<td>Modalが閉じ、書籍は削除されない。</td>
+</tr>
+<tr>
+<td>削除を確定する</td>
+<td>書籍が削除され、一覧画面へ移動する。</td>
+</tr>
+<tr>
+<td>削除後に一覧を確認する</td>
+<td>削除した書籍が表示されない。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="41-ユースケースと実装ファイルの対応">4.1
+ユースケースと実装ファイルの対応</h3>
+<table>
+<thead>
+<tr>
+<th>ユースケース</th>
+<th>フロントエンド</th>
+<th>バックエンド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UC000 トップページを表示する</td>
+<td><code>home.js</code></td>
+<td>なし</td>
+</tr>
+<tr>
+<td>UC001 書籍一覧を表示する</td>
+<td><code>book-list.js</code></td>
+<td><code>GET /api/v1/books</code></td>
+</tr>
+<tr>
+<td>UC002 書籍を検索する</td>
+<td><code>book-list.js</code></td>
+<td><code>GET /api/v1/books?keyword=xxx</code></td>
+</tr>
+<tr>
+<td>UC003 書籍詳細を表示する</td>
+<td><code>book-detail.js</code></td>
+<td><code>GET /api/v1/books/:id</code></td>
+</tr>
+<tr>
+<td>UC004 書籍を登録する</td>
+<td><code>book-register.js</code></td>
+<td><code>POST /api/v1/books</code></td>
+</tr>
+<tr>
+<td>UC005 書籍を更新する</td>
+<td><code>book-update-modal.js</code></td>
+<td><code>PUT /api/v1/books/:id</code></td>
+</tr>
+<tr>
+<td>UC006 書籍を削除する</td>
+<td><code>book-delete-modal.js</code></td>
+<td><code>DELETE /api/v1/books/:id</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-画面一覧およびuiフロー図">5. 画面一覧およびUIフロー図</h2>
+<h3 id="51-画面一覧">5.1 画面一覧</h3>
+<p>本システムは、<code>index.html</code>
+の共通レイアウトを残したまま、<code>&lt;main id="app"&gt;</code>
+の中身だけを切り替えるSPAとして作成します。</p>
+<table>
+<thead>
+<tr>
+<th>画面ID</th>
+<th>画面名</th>
+<th>URL</th>
+<th>表示関数</th>
+<th>表示方式</th>
+<th>主な役割</th>
+<th>遷移・表示方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCR-001</td>
+<td>トップページ</td>
+<td><code>/</code></td>
+<td><code>showHome()</code></td>
+<td>疑似画面</td>
+<td>システム概要、主要操作ボタン、機能案内を表示する。</td>
+<td>ブラウザで <code>/</code>
+を開く。またはメニューの「トップページ」をクリックする。</td>
+</tr>
+<tr>
+<td>SCR-002</td>
+<td>書籍一覧画面</td>
+<td><code>/books</code></td>
+<td><code>showBookList()</code></td>
+<td>疑似画面</td>
+<td>書籍一覧表示と書籍名検索を行う。</td>
+<td>メニューの「書籍一覧」をクリックする。</td>
+</tr>
+<tr>
+<td>SCR-003</td>
+<td>書籍登録画面</td>
+<td><code>/books/new</code></td>
+<td><code>showBookRegister()</code></td>
+<td>疑似画面</td>
+<td>新しい書籍情報を登録する。</td>
+<td>メニューの「書籍登録」をクリックする。</td>
+</tr>
+<tr>
+<td>SCR-004</td>
+<td>書籍詳細画面</td>
+<td><code>/books/{id}</code></td>
+<td><code>showBookDetail(id)</code></td>
+<td>疑似画面</td>
+<td>選択した書籍の詳細情報を表示する。</td>
+<td>書籍一覧画面の書籍名リンクをクリックする。</td>
+</tr>
+<tr>
+<td>SCR-005</td>
+<td>書籍更新Modal</td>
+<td>なし</td>
+<td><code>openUpdateModal(book)</code></td>
+<td>Modal</td>
+<td>登録済み書籍の情報を変更する。</td>
+<td>書籍詳細画面の「更新」ボタンをクリックする。</td>
+</tr>
+<tr>
+<td>SCR-006</td>
+<td>書籍削除Modal</td>
+<td>なし</td>
+<td><code>openDeleteModal(book)</code></td>
+<td>Modal</td>
+<td>登録済み書籍を削除する前に確認する。</td>
+<td>書籍詳細画面の「削除」ボタンをクリックする。</td>
+</tr>
+<tr>
+<td>SCR-007</td>
+<td>モバイルメニュー</td>
+<td>なし</td>
+<td>Bootstrap Offcanvas</td>
+<td>Offcanvas</td>
+<td>モバイル幅でメニューを表示する。</td>
+<td>ヘッダーの三本線ボタンをクリックする。</td>
+</tr>
+</tbody>
+</table>
+<p>書籍詳細画面のURLは <code>/books/{id}</code>
+の形式ですが、利用者の通常操作では、書籍一覧画面のリンクから移動します。ブラウザのアドレス欄へ直接入力して利用することは、基本操作として扱いません。</p>
+<h3 id="52-共通レイアウト">5.2 共通レイアウト</h3>
+<table>
+<thead>
+<tr>
+<th>領域</th>
+<th>HTML要素・ID/class</th>
+<th>内容</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ヘッダー</td>
+<td><code>header.site-header</code></td>
+<td>システム名、Bootstrap Icons、モバイル用三本線ボタン</td>
+<td>全画面で共通</td>
+</tr>
+<tr>
+<td>サイドバー</td>
+<td><code>aside.sidebar</code></td>
+<td>トップページ、書籍一覧、書籍登録へのアイコン付きメニュー</td>
+<td>PC幅で表示</td>
+</tr>
+<tr>
+<td>メイン領域</td>
+<td><code>main#app.main-content</code></td>
+<td>疑似画面を表示する領域</td>
+<td>JavaScriptで中身を差し替える</td>
+</tr>
+<tr>
+<td>Modal挿入領域</td>
+<td><code>div#modal-area</code></td>
+<td>更新Modal、削除Modalを挿入する領域</td>
+<td>画面移動時に空にする</td>
+</tr>
+<tr>
+<td>モバイルメニュー</td>
+<td><code>div#mobileMenu</code></td>
+<td>モバイル幅用のアイコン付きメニュー</td>
+<td>Offcanvasで表示</td>
+</tr>
+<tr>
+<td>フッター</td>
+<td><code>footer.site-footer</code></td>
+<td>システム名、Bootstrap Icons</td>
+<td>全画面で共通</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-全体uiフロー図">5.3 全体UIフロー図</h3>
+<pre class="mermaid"><code>flowchart LR
+    Start[&quot;起動&quot;] --&gt; Top[&quot;SCR-001&lt;br&gt;トップページ&quot;]
+
+    Top --&gt;|書籍一覧を見る| List[&quot;SCR-002&lt;br&gt;書籍一覧&quot;]
+    Top --&gt;|書籍を登録する| Register[&quot;SCR-003&lt;br&gt;書籍登録&quot;]
+
+    List --&gt;|検索| List
+    List --&gt;|書籍名| Detail[&quot;SCR-004&lt;br&gt;書籍詳細&quot;]
+    Register --&gt;|登録成功| List
+
+    Detail --&gt;|一覧へ戻る| List
+    Detail --&gt;|更新| UpdateModal[&quot;SCR-005&lt;br&gt;更新Modal&quot;]
+    Detail --&gt;|削除| DeleteModal[&quot;SCR-006&lt;br&gt;削除Modal&quot;]
+
+    UpdateModal --&gt;|更新成功| Detail
+    UpdateModal --&gt;|閉じる| Detail
+    DeleteModal --&gt;|削除成功| List
+    DeleteModal --&gt;|キャンセル| Detail
+
+    Menu[&quot;共通メニュー&quot;] -.-&gt; Top
+    Menu -.-&gt; List
+    Menu -.-&gt; Register</code></pre>
+<p>共通メニューは、サイドバーまたはモバイルメニューを表します。図がPDF上で横幅に収まりやすいように、共通メニューから各画面への移動は点線でまとめています。</p>
+<h3 id="54-機能別uiフロー図">5.4 機能別UIフロー図</h3>
+<h4 id="541-トップページ表示">5.4.1 トップページ表示</h4>
+<pre class="mermaid"><code>flowchart LR
+    A[&quot;/ を開く&quot;] --&gt; B[&quot;showHome()&quot;]
+    B --&gt; C[&quot;トップページを表示&quot;]
+    C --&gt; D[&quot;主要操作ボタンから機能を選択&quot;]
+    C --&gt; E[&quot;サイドバーまたはモバイルメニューから機能を選択&quot;]</code></pre>
+<p>トップページでは、システム概要、主要操作ボタン、機能案内を表示します。主要操作ボタンにはBootstrap
+Iconsを付け、書籍一覧画面と書籍登録画面へ移動できるようにします。登録書籍数や最近登録された書籍の表示は、追加機能として扱います。</p>
+<h4 id="542-書籍一覧検索">5.4.2 書籍一覧・検索</h4>
+<pre class="mermaid"><code>flowchart TD
+    A[&quot;メニュー: 書籍一覧&quot;] --&gt; B[&quot;showBookList()&quot;]
+    B --&gt; C[&quot;GET /api/v1/books&quot;]
+    C --&gt; D[&quot;書籍一覧を表示&quot;]
+    D --&gt;|検索キーワード入力| E[&quot;検索ボタン&quot;]
+    E --&gt; F[&quot;GET /api/v1/books?keyword=...&quot;]
+    F --&gt; D
+    D --&gt;|書籍名リンク| G[&quot;書籍詳細画面へ移動&quot;]</code></pre>
+<p>検索は書籍一覧画面の中で行います。検索結果も同じ書籍一覧画面に表示します。</p>
+<h4 id="543-書籍登録">5.4.3 書籍登録</h4>
+<pre class="mermaid"><code>flowchart TD
+    A[&quot;メニュー: 書籍登録&quot;] --&gt; B[&quot;showBookRegister()&quot;]
+    B --&gt; C[&quot;登録フォームを表示&quot;]
+    C --&gt; D[&quot;入力値を取得&quot;]
+    D --&gt; E{&quot;必須項目が入力済み&quot;}
+    E --&gt;|はい| F[&quot;POST /api/v1/books&quot;]
+    F --&gt; G[&quot;登録完了&quot;]
+    G --&gt; H[&quot;書籍一覧画面へ移動&quot;]
+    E --&gt;|いいえ| I[&quot;エラーメッセージを表示&quot;]
+    I --&gt; C</code></pre>
+<p>登録画面は疑似画面として表示します。登録成功後は、書籍一覧画面へ移動します。</p>
+<h4 id="544-書籍詳細">5.4.4 書籍詳細</h4>
+<pre class="mermaid"><code>flowchart TD
+    A[&quot;書籍一覧画面&quot;] --&gt;|書籍名リンク| B[&quot;showBookDetail(id)&quot;]
+    B --&gt; C[&quot;GET /api/v1/books/:id&quot;]
+    C --&gt; D[&quot;書籍詳細画面を表示&quot;]
+    D --&gt;|一覧へ戻る| A
+    D --&gt;|更新| E[&quot;書籍更新Modal&quot;]
+    D --&gt;|削除| F[&quot;書籍削除Modal&quot;]</code></pre>
+<p>書籍詳細画面は、書籍一覧画面の書籍名リンクから表示します。ブラウザのアドレス欄へURLを直接入力する操作は、基本操作として扱いません。</p>
+<h4 id="545-書籍更新modal">5.4.5 書籍更新Modal</h4>
+<pre class="mermaid"><code>flowchart TD
+    A[&quot;書籍詳細画面&quot;] --&gt;|更新ボタン| B[&quot;openUpdateModal(book)&quot;]
+    B --&gt; C[&quot;現在値を入れた更新Modalを表示&quot;]
+    C --&gt; D[&quot;入力値を取得&quot;]
+    D --&gt; E{&quot;必須項目が入力済み&quot;}
+    E --&gt;|はい| F[&quot;PUT /api/v1/books/:id&quot;]
+    F --&gt; G[&quot;Modalを閉じる&quot;]
+    G --&gt; H[&quot;詳細画面を再読み込み&quot;]
+    E --&gt;|いいえ| I[&quot;Modal内にエラーメッセージを表示&quot;]
+    I --&gt; C</code></pre>
+<p>更新は詳細画面からModalで行います。更新成功後は、同じ詳細画面を再読み込みして最新情報を表示します。</p>
+<h4 id="546-書籍削除modal">5.4.6 書籍削除Modal</h4>
+<pre class="mermaid"><code>flowchart TD
+    A[&quot;書籍詳細画面&quot;] --&gt;|削除ボタン| B[&quot;openDeleteModal(book)&quot;]
+    B --&gt; C[&quot;削除確認Modalを表示&quot;]
+    C --&gt;|削除| D[&quot;DELETE /api/v1/books/:id&quot;]
+    D --&gt; E[&quot;Modalを閉じる&quot;]
+    E --&gt; F[&quot;書籍一覧画面へ移動&quot;]
+    C --&gt;|キャンセル| G[&quot;Modalを閉じる&quot;]
+    G --&gt; A</code></pre>
+<p>削除は確認Modalを表示してから実行します。キャンセルした場合は削除せず、詳細画面に戻ります。</p>
+<h3 id="55-画面レイアウト図">5.5 画面レイアウト図</h3>
+<blockquote>
+<p><strong>⚠
+重要：以下の画面レイアウト図はあくまで完成イメージの参考図です。実装時は、必ずユースケース仕様書の記載内容を優先してください。</strong>
+画面の見た目やレイアウトが以下の図と100%同じになる必要はありません。ユースケース仕様書に記載された表示項目・入力項目・動作仕様を満たしていれば、デザインの細部は異なっていても構いません。</p>
+</blockquote>
+<h4 id="scr-001-トップページ">SCR-001 トップページ</h4>
+<p>システムの概要、主要操作ボタン（「書籍一覧を見る」「書籍を登録する」）、機能案内（一覧・検索、詳細確認、登録・更新・削除）が表示されます。</p>
+<p><img src="images/01_home.png" alt="SCR-001 トップページ" /></p>
+<hr />
+<h4 id="scr-002-書籍一覧画面全件表示">SCR-002
+書籍一覧画面（全件表示）</h4>
+<p>サイドバーの「書籍一覧」をクリックした直後の画面です。登録済みの書籍が一覧で表示されます。検索欄と「検索」ボタンが上部にあります。</p>
+<p><img src="images/02_book_list.png" alt="SCR-002 書籍一覧画面" /></p>
+<hr />
+<h4 id="scr-002-書籍一覧画面検索結果0件">SCR-002
+書籍一覧画面（検索結果0件）</h4>
+<p>存在しないキーワードで検索した場合の画面です。「条件に一致する書籍はありません。」というメッセージが表示されます。</p>
+<p><img src="images/03_book_search_invalid.png"
+alt="SCR-002 検索結果0件" /></p>
+<hr />
+<h4 id="scr-002-書籍一覧画面検索成功">SCR-002
+書籍一覧画面（検索成功）</h4>
+<p>キーワード「go」で検索した場合の画面です。書籍名に「go」を含む書籍（Django開発、Go言語）が絞り込まれて表示されます。</p>
+<p><img src="images/04_book_search_valid.png"
+alt="SCR-002 検索成功" /></p>
+<hr />
+<h4 id="scr-004-書籍詳細画面">SCR-004 書籍詳細画面</h4>
+<p>書籍一覧画面の書籍名リンクをクリックして遷移した詳細画面です。書籍の画像、書籍ID、書籍名、著者名、価格、出版社、画像パスが表示されます。「更新」「削除」「一覧へ戻る」ボタンがあります。</p>
+<p><img src="images/05_book_detail.png"
+alt="SCR-004 書籍詳細画面" /></p>
+<hr />
+<h4 id="scr-005-書籍更新modal">SCR-005 書籍更新Modal</h4>
+<p>書籍詳細画面の「更新」ボタンをクリックすると表示される更新Modalです。現在の書籍情報が初期値として入力済みになっています。</p>
+<p><img src="images/06_book_update_modal.png"
+alt="SCR-005 書籍更新Modal" /></p>
+<hr />
+<h4 id="scr-006-書籍削除modal">SCR-006 書籍削除Modal</h4>
+<p>書籍詳細画面の「削除」ボタンをクリックすると表示される削除確認Modalです。削除対象の書籍名が表示されます。</p>
+<p><img src="images/07_book_delete_modal.png"
+alt="SCR-006 書籍削除Modal" /></p>
+<hr />
+<h4 id="scr-003-書籍登録画面初期表示">SCR-003
+書籍登録画面（初期表示）</h4>
+<p>サイドバーの「書籍登録」をクリックした直後の画面です。書籍名、著者名、価格、出版社、画像パスの入力欄と「登録」ボタンがあります。</p>
+<p><img src="images/08_book_register.png"
+alt="SCR-003 書籍登録画面" /></p>
+<hr />
+<h4 id="scr-003-書籍登録画面入力エラー">SCR-003
+書籍登録画面（入力エラー）</h4>
+<p>必須項目（書籍名、著者名、価格）が未入力のまま「登録」ボタンを押した場合の画面です。「データを入力してください。」というエラーメッセージが表示されます。</p>
+<p><img src="images/09_book_register_error.png"
+alt="SCR-003 書籍登録画面（入力エラー）" /></p>
+<h2 id="6-データベース仕様">6. データベース仕様</h2>
+<h3 id="61-テーブル定義">6.1 テーブル定義</h3>
+<p>テーブル名: <code>books</code></p>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>論理名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>書籍ID</td>
+<td>INTEGER</td>
+<td>PRIMARY KEY AUTOINCREMENT</td>
+<td>書籍を識別する番号</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>書籍名</td>
+<td>TEXT</td>
+<td>NOT NULL</td>
+<td>書籍のタイトル</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>著者名</td>
+<td>TEXT</td>
+<td>NOT NULL</td>
+<td>著者名</td>
+</tr>
+<tr>
+<td><code>price</code></td>
+<td>価格</td>
+<td>INTEGER</td>
+<td>NOT NULL</td>
+<td>書籍価格</td>
+</tr>
+<tr>
+<td><code>publisher</code></td>
+<td>出版社</td>
+<td>TEXT</td>
+<td>なし</td>
+<td>出版社名</td>
+</tr>
+<tr>
+<td><code>image_path</code></td>
+<td>画像パス</td>
+<td>TEXT</td>
+<td>なし</td>
+<td>表紙画像のパス</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-追加機能用テーブル定義">6.2 追加機能用テーブル定義</h3>
+<p>テーブル名: <code>users</code></p>
+<p>ログイン機能と権限管理は追加機能の候補として扱います。そのため、スターターキットのSQLには、追加機能で使用する
+<code>users</code>
+テーブルも用意します。基本機能の実装では、このテーブルを使用しません。</p>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>論理名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>ユーザーID</td>
+<td>INTEGER</td>
+<td>PRIMARY KEY AUTOINCREMENT</td>
+<td>ユーザーを識別する番号</td>
+</tr>
+<tr>
+<td><code>login_id</code></td>
+<td>ログインID</td>
+<td>TEXT</td>
+<td>NOT NULL UNIQUE</td>
+<td>ログイン時に入力するID</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>パスワード</td>
+<td>TEXT</td>
+<td>NOT NULL</td>
+<td>ログイン時に入力するパスワード</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>ユーザー名</td>
+<td>TEXT</td>
+<td>NOT NULL</td>
+<td>画面表示用の名前</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>権限</td>
+<td>TEXT</td>
+<td>NOT NULL</td>
+<td><code>admin</code> または <code>user</code> を想定</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-必須項目">6.3 必須項目</h3>
+<p>登録・更新時は、次の項目を必須とします。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>一覧・詳細で主要情報として表示するため</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>書籍情報として基本項目のため</td>
+</tr>
+<tr>
+<td><code>price</code></td>
+<td>数値入力とAPI送信の練習に使用するため</td>
+</tr>
+</tbody>
+</table>
+<h3 id="64-初期データ">6.4 初期データ</h3>
+<p><code>books</code> テーブルには、スターターキットの
+<code>images</code>
+フォルダに用意された画像ファイルと対応する初期データを登録します。</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>書籍名</th>
+<th>著者名</th>
+<th>価格</th>
+<th>出版社</th>
+<th>画像パス</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Pythonの教科書</td>
+<td>山田 太郎</td>
+<td>2500</td>
+<td>技術書院</td>
+<td><code>/images/1.png</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Vue.js入門</td>
+<td>山田 太郎</td>
+<td>3000</td>
+<td>技術評論社</td>
+<td><code>/images/2.png</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Django開発</td>
+<td>佐藤 健一</td>
+<td>2800</td>
+<td>技術評論社</td>
+<td><code>/images/3.png</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>JavaScript完全</td>
+<td>山田 太郎</td>
+<td>3200</td>
+<td>技術評論社</td>
+<td><code>/images/4.png</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>AIの基礎</td>
+<td>田中 未来</td>
+<td>3500</td>
+<td>未来技術社</td>
+<td><code>/images/5.png</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>React実践</td>
+<td>伊藤 さくら</td>
+<td>3100</td>
+<td>技術評論社</td>
+<td><code>/images/6.png</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Go言語</td>
+<td>渡辺 剛</td>
+<td>3400</td>
+<td>技術評論社</td>
+<td><code>/images/7.png</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Docker活用</td>
+<td>山田 太郎</td>
+<td>2900</td>
+<td>クラウド書房</td>
+<td><code>/images/8.png</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>AWS構築</td>
+<td>山田 太郎</td>
+<td>3800</td>
+<td>インフラ技術社</td>
+<td><code>/images/9.png</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>アジャイル</td>
+<td>吉田 チーム</td>
+<td>2600</td>
+<td>J-TECH</td>
+<td><code>/images/10.png</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-api仕様">7. API仕様</h2>
+<table>
+<thead>
+<tr>
+<th>メソッド</th>
+<th>URL</th>
+<th>概要</th>
+<th>使用するSQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/books</code></td>
+<td>書籍一覧取得</td>
+<td><code>SELECT * FROM books</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/books?keyword=xxx</code></td>
+<td>書籍名検索</td>
+<td><code>SELECT * FROM books WHERE title LIKE ?</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/books/:id</code></td>
+<td>書籍詳細取得</td>
+<td><code>SELECT * FROM books WHERE id = ?</code></td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/books</code></td>
+<td>書籍登録</td>
+<td><code>INSERT INTO books ...</code></td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/api/v1/books/:id</code></td>
+<td>書籍更新</td>
+<td><code>UPDATE books SET ... WHERE id = ?</code></td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/books/:id</code></td>
+<td>書籍削除</td>
+<td><code>DELETE FROM books WHERE id = ?</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-実装順序">8. 実装順序</h2>
+<h3 id="81-api">8.1 API</h3>
+<ol type="1">
+<li>Express、JSON受信、CORS、SQLite接続を設定する。</li>
+<li><code>GET /api/v1/books</code> を実装する。</li>
+<li><code>keyword</code> クエリパラメータによる検索を追加する。</li>
+<li><code>GET /api/v1/books/:id</code> を実装する。</li>
+<li><code>POST /api/v1/books</code> を実装する。</li>
+<li><code>PUT /api/v1/books/:id</code> を実装する。</li>
+<li><code>DELETE /api/v1/books/:id</code> を実装する。</li>
+<li>疑似画面のURLはNavigation
+APIで切り替える。サーバー側で疑似画面URL用のHTML返却処理は追加しない。</li>
+</ol>
+<h3 id="82-フロントエンド">8.2 フロントエンド</h3>
+<ol type="1">
+<li><code>app.js</code> に各コンポーネントのimportを追加する。</li>
+<li><code>showPage(path)</code> でURLと表示関数を対応させる。</li>
+<li><code>book-list.js</code> で一覧表示と検索を実装する。</li>
+<li><code>book-detail.js</code>
+で詳細表示、更新ボタン、削除ボタンを実装する。</li>
+<li><code>book-register.js</code>
+で登録フォームとPOST処理を実装する。</li>
+<li><code>book-update-modal.js</code>
+で更新ModalとPUT処理を実装する。</li>
+<li><code>book-delete-modal.js</code>
+で削除確認ModalとDELETE処理を実装する。</li>
+</ol>
+<p>トップページはスターターキットで実装済みの <code>home.js</code>
+を確認します。基本機能では、システム概要、主要操作ボタン、機能案内、Bootstrap
+Iconsの使い方を確認します。追加機能として登録書籍数や最近登録された書籍を表示する場合は、トップページ用APIと
+<code>home.js</code> のAPI通信処理を追加します。</p>
+<h2 id="9-動作確認">9. 動作確認</h2>
+<h3 id="91-起動方法">9.1 起動方法</h3>
+<p>本演習では、フロントエンド画面とAPIサーバーを別々に起動します。</p>
+<h4 id="apiサーバーを起動する">APIサーバーを起動する</h4>
+<p><code>BookProject/api</code> フォルダで次のコマンドを実行します。</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> start</span></code></pre></div>
+<p>起動できたら、ブラウザで次のURLを開きます。</p>
+<pre class="text"><code>http://localhost:3015/api/test</code></pre>
+<p>次のようなJSONが表示されれば、APIサーバーは起動できています。</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;ok&quot;</span><span class="fu">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;APIサーバー稼働中！&quot;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h4 id="フロントエンド画面を起動する">フロントエンド画面を起動する</h4>
+<p>フロントエンド画面は、Visual Studio CodeのLive
+Serverで確認します。</p>
+<p>このとき、必ず <code>BookProject</code> フォルダをLive
+Serverで開いてください。</p>
+<p>正しいURLの形:</p>
+<pre class="text"><code>http://127.0.0.1:ポート番号/</code></pre>
+<p>ポート番号は環境によって変わります。多くの場合は <code>5500</code>
+ですが、すでに別のLive Serverが起動している場合は
+<code>5501</code>、<code>5502</code> などになることがあります。</p>
+<p>そのため、<code>http://127.0.0.1:5500/</code>
+を手入力するのではなく、<code>Open with Live Server</code>
+を実行した時にブラウザで自動的に開かれたURLを使用してください。</p>
+<p>正しく開けている場合、ブラウザのURLは <code>/basic_answer/</code> や
+<code>/starter-kit/BookProject/</code> ではなく、Live Serverのルート
+<code>/</code> になります。</p>
+<p>次のようなURLで開いている場合は、Live
+Serverで開くフォルダが違います。</p>
+<pre class="text"><code>http://127.0.0.1:5500/basic_answer/
+http://127.0.0.1:5501/starter-kit/BookProject/</code></pre>
+<p>この状態では、<code>/css/style.css</code> や <code>/js/app.js</code>
+の読み込み先がずれて、CSSが適用されなかったり、メニューをクリックした時に
+<code>Cannot GET /books</code> と表示されたりします。</p>
+<h4 id="正しい開き方">正しい開き方</h4>
+<ol type="1">
+<li>Visual Studio Codeで <code>BookProject</code> フォルダを開く。</li>
+<li><code>index.html</code> を右クリックする。</li>
+<li><code>Open with Live Server</code> を選択する。</li>
+<li>ブラウザが自動的に開いたURLを確認する。</li>
+<li>URLの末尾が <code>/</code> または <code>/index.html</code>
+になっていることを確認する。</li>
+<li>URLに <code>/basic_answer/</code> や
+<code>/starter-kit/BookProject/</code>
+が含まれていないことを確認する。</li>
+<li>別ターミナルでAPIサーバーが起動していることを確認する。</li>
+</ol>
+<h3 id="92-基本機能の確認">9.2 基本機能の確認</h3>
+<table>
+<thead>
+<tr>
+<th>確認項目</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Live Serverで <code>BookProject</code> を開く</td>
+<td>Live Serverが開いたURLでトップページが表示される</td>
+</tr>
+<tr>
+<td><code>http://localhost:3015/api/test</code> を開く</td>
+<td>APIサーバーの起動確認用JSONが表示される</td>
+</tr>
+<tr>
+<td>トップページから「書籍一覧」をクリックする</td>
+<td>書籍一覧が表示される</td>
+</tr>
+<tr>
+<td>検索欄にキーワードを入力する</td>
+<td>書籍名に一致する一覧が表示される</td>
+</tr>
+<tr>
+<td>一覧から詳細リンクをクリックする</td>
+<td>URLが <code>/books/{id}</code> になり、詳細画面が表示される</td>
+</tr>
+<tr>
+<td>メニューから「書籍登録」をクリックする</td>
+<td>登録画面が表示される</td>
+</tr>
+<tr>
+<td>必須項目を入力して登録する</td>
+<td>書籍が登録され、一覧へ移動する</td>
+</tr>
+<tr>
+<td>詳細画面で更新ボタンを押す</td>
+<td>更新Modalが表示される</td>
+</tr>
+<tr>
+<td>更新Modalで更新する</td>
+<td>Modalが閉じ、詳細画面が再読み込みされる</td>
+</tr>
+<tr>
+<td>詳細画面で削除ボタンを押す</td>
+<td>削除確認Modalが表示される</td>
+</tr>
+<tr>
+<td>削除を確定する</td>
+<td>Modalが閉じ、一覧へ移動する</td>
+</tr>
+<tr>
+<td>モバイル幅で三本線ボタンを押す</td>
+<td>モバイルメニューが表示される</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-追加課題">10. 追加課題</h2>
+<p>基本機能の実装が完了した後、時間に余裕がある場合は次の追加課題に取り組みます。</p>
+<table>
+<thead>
+<tr>
+<th>課題</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>並び替え</td>
+<td>価格の昇順・降順で一覧を並び替える</td>
+</tr>
+<tr>
+<td>画像プレビュー</td>
+<td>登録画面で画像パス入力後にプレビューを表示する</td>
+</tr>
+<tr>
+<td>入力チェック強化</td>
+<td>価格が0以下の場合にエラーを表示する</td>
+</tr>
+<tr>
+<td>メッセージ改善</td>
+<td>登録・更新・削除後のメッセージを画面内に表示する</td>
+</tr>
+<tr>
+<td>トップページ情報表示</td>
+<td>登録書籍数と最近登録された書籍をトップページに表示する</td>
+</tr>
+<tr>
+<td>ログイン機能</td>
+<td>ユーザーIDとパスワードでログインできるようにする</td>
+</tr>
+<tr>
+<td>権限管理</td>
+<td><code>role</code> によって利用できる機能を制御する</td>
+</tr>
+</tbody>
+</table>
+<h3 id="101-並び替え">10.1 並び替え</h3>
+<h4 id="目的">目的</h4>
+<p>書籍一覧画面で、価格の昇順・降順を切り替えて表示できるようにします。</p>
+<h4 id="対象画面">対象画面</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象画面</td>
+<td>書籍一覧画面</td>
+</tr>
+<tr>
+<td>対象ファイル</td>
+<td><code>js/components/book-list.js</code>,
+<code>api/server.js</code></td>
+</tr>
+<tr>
+<td>対象API</td>
+<td><code>GET /api/v1/books</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="仕様">仕様</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>並び替え条件</td>
+<td>価格</td>
+</tr>
+<tr>
+<td>並び順</td>
+<td>昇順、降順</td>
+</tr>
+<tr>
+<td>初期表示</td>
+<td>指定なし。基本機能と同じ一覧を表示する。</td>
+</tr>
+<tr>
+<td>操作方法</td>
+<td>書籍一覧画面に並び替え用の選択欄またはボタンを追加する。</td>
+</tr>
+<tr>
+<td>APIパラメータ例</td>
+<td><code>GET /api/v1/books?sort=price_asc</code>、<code>GET /api/v1/books?sort=price_desc</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="実装方針">実装方針</h4>
+<ol type="1">
+<li>書籍一覧画面に並び替え操作用の要素を追加する。</li>
+<li>並び替え条件を取得する。</li>
+<li>AxiosでAPIを呼び出す時に、並び替え条件をクエリパラメータとして送信する。</li>
+<li>API側で <code>ORDER BY price ASC</code> または
+<code>ORDER BY price DESC</code> を使って検索する。</li>
+<li>取得した結果で一覧を再表示する。</li>
+</ol>
+<h4 id="完了条件">完了条件</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>価格の昇順を選択する</td>
+<td>価格が安い順に表示される。</td>
+</tr>
+<tr>
+<td>価格の降順を選択する</td>
+<td>価格が高い順に表示される。</td>
+</tr>
+<tr>
+<td>検索と組み合わせる</td>
+<td>検索結果に対して並び替えが適用される。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102-画像プレビュー">10.2 画像プレビュー</h3>
+<h4 id="目的-1">目的</h4>
+<p>書籍登録画面で画像パスを入力した時に、登録前に表紙画像を確認できるようにします。</p>
+<h4 id="対象画面-1">対象画面</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象画面</td>
+<td>書籍登録画面</td>
+</tr>
+<tr>
+<td>対象ファイル</td>
+<td><code>js/components/book-register.js</code></td>
+</tr>
+<tr>
+<td>対象API</td>
+<td>なし</td>
+</tr>
+</tbody>
+</table>
+<h4 id="仕様-1">仕様</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>入力対象</td>
+<td>画像パス入力欄</td>
+</tr>
+<tr>
+<td>表示対象</td>
+<td>入力された画像パスの画像</td>
+</tr>
+<tr>
+<td>表示位置</td>
+<td>画像パス入力欄の近く</td>
+</tr>
+<tr>
+<td>画像が表示できない場合</td>
+<td>画像を表示せず、入力値を確認するよう案内する。</td>
+</tr>
+<tr>
+<td>入力例</td>
+<td><code>/images/1.png</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="実装方針-1">実装方針</h4>
+<ol type="1">
+<li>登録画面に画像プレビュー用の <code>img</code> 要素を追加する。</li>
+<li>画像パス入力欄に <code>input</code> イベントを設定する。</li>
+<li>入力値が変わったら、<code>img</code> 要素の <code>src</code>
+属性へ入力値を設定する。</li>
+<li>入力値が空の場合は、プレビューを非表示にする。</li>
+</ol>
+<h4 id="完了条件-1">完了条件</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/images/1.png</code> を入力する</td>
+<td>1.pngの画像が表示される。</td>
+</tr>
+<tr>
+<td>画像パスを空にする</td>
+<td>プレビュー画像が表示されない。</td>
+</tr>
+<tr>
+<td>存在しない画像パスを入力する</td>
+<td>画面が崩れず、登録フォームの操作を続けられる。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-入力チェック強化">10.3 入力チェック強化</h3>
+<h4 id="目的-2">目的</h4>
+<p>必須チェックだけでなく、入力値の内容が正しいか確認できるようにします。</p>
+<h4 id="対象画面-2">対象画面</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象画面</td>
+<td>書籍登録画面、書籍更新Modal</td>
+</tr>
+<tr>
+<td>対象ファイル</td>
+<td><code>book-register.js</code>, <code>book-update-modal.js</code>,
+<code>api/server.js</code></td>
+</tr>
+<tr>
+<td>対象API</td>
+<td><code>POST /api/v1/books</code>,
+<code>PUT /api/v1/books/:id</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="仕様-2">仕様</h4>
+<table>
+<thead>
+<tr>
+<th>チェック対象</th>
+<th>条件</th>
+<th>エラーメッセージ例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>書籍名</td>
+<td>空欄不可</td>
+<td>書籍名を入力してください。</td>
+</tr>
+<tr>
+<td>著者名</td>
+<td>空欄不可</td>
+<td>著者名を入力してください。</td>
+</tr>
+<tr>
+<td>価格</td>
+<td>空欄不可</td>
+<td>価格を入力してください。</td>
+</tr>
+<tr>
+<td>価格</td>
+<td>1以上の数値</td>
+<td>価格は1以上の数値を入力してください。</td>
+</tr>
+<tr>
+<td>画像パス</td>
+<td>任意</td>
+<td>未入力でも登録可能。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="実装方針-2">実装方針</h4>
+<ol type="1">
+<li>登録処理と更新処理の前に入力値を確認する。</li>
+<li>エラーがある場合はAPIを呼び出さず、画面にメッセージを表示する。</li>
+<li>API側でも同じ観点でチェックする。</li>
+<li>API側でエラーになった場合は、400 Bad Requestを返す。</li>
+</ol>
+<h4 id="完了条件-2">完了条件</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>価格に0を入力する</td>
+<td>エラーが表示され、登録・更新されない。</td>
+</tr>
+<tr>
+<td>価格に負の数を入力する</td>
+<td>エラーが表示され、登録・更新されない。</td>
+</tr>
+<tr>
+<td>必須項目をすべて入力する</td>
+<td>登録・更新できる。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="104-メッセージ改善">10.4 メッセージ改善</h3>
+<h4 id="目的-3">目的</h4>
+<p><code>alert()</code>
+だけに頼らず、登録・更新・削除の結果を画面内に表示できるようにします。</p>
+<h4 id="対象画面-3">対象画面</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象画面</td>
+<td>書籍一覧画面、書籍登録画面、書籍詳細画面、書籍更新Modal、書籍削除Modal</td>
+</tr>
+<tr>
+<td>対象ファイル</td>
+<td><code>book-list.js</code>, <code>book-register.js</code>,
+<code>book-detail.js</code>, <code>book-update-modal.js</code>,
+<code>book-delete-modal.js</code></td>
+</tr>
+<tr>
+<td>対象API</td>
+<td>書籍管理API全般</td>
+</tr>
+</tbody>
+</table>
+<h4 id="仕様-3">仕様</h4>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>メッセージ例</th>
+<th>表示場所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>登録成功</td>
+<td>書籍を登録しました。</td>
+<td>書籍一覧画面上部</td>
+</tr>
+<tr>
+<td>更新成功</td>
+<td>書籍を更新しました。</td>
+<td>書籍詳細画面上部</td>
+</tr>
+<tr>
+<td>削除成功</td>
+<td>書籍を削除しました。</td>
+<td>書籍一覧画面上部</td>
+</tr>
+<tr>
+<td>入力エラー</td>
+<td>入力内容を確認してください。</td>
+<td>フォームまたはModal内</td>
+</tr>
+<tr>
+<td>通信エラー</td>
+<td>通信に失敗しました。時間をおいて再実行してください。</td>
+<td>操作中の画面</td>
+</tr>
+</tbody>
+</table>
+<h4 id="実装方針-3">実装方針</h4>
+<ol type="1">
+<li>メッセージ表示用の領域を用意する。</li>
+<li>成功時・失敗時に表示する文言を決める。</li>
+<li>画面移動後にメッセージを表示する場合は、必要に応じて一時的に値を保持する。</li>
+<li>エラー時は、コンソール出力だけでなく画面にもメッセージを表示する。</li>
+</ol>
+<h4 id="完了条件-3">完了条件</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>登録に成功する</td>
+<td>書籍一覧画面に成功メッセージが表示される。</td>
+</tr>
+<tr>
+<td>更新に成功する</td>
+<td>書籍詳細画面に成功メッセージが表示される。</td>
+</tr>
+<tr>
+<td>削除に成功する</td>
+<td>書籍一覧画面に成功メッセージが表示される。</td>
+</tr>
+<tr>
+<td>API通信に失敗する</td>
+<td>画面にエラーメッセージが表示される。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="105-トップページ情報表示">10.5 トップページ情報表示</h3>
+<h4 id="目的-4">目的</h4>
+<p>トップページに登録書籍数と最近登録された書籍を表示し、アプリの状態を確認できるようにします。</p>
+<h4 id="対象画面-4">対象画面</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象画面</td>
+<td>トップページ</td>
+</tr>
+<tr>
+<td>対象ファイル</td>
+<td><code>home.js</code>, <code>api/server.js</code></td>
+</tr>
+<tr>
+<td>対象API</td>
+<td><code>GET /api/v1/books/summary</code> など</td>
+</tr>
+</tbody>
+</table>
+<h4 id="仕様-4">仕様</h4>
+<table>
+<thead>
+<tr>
+<th>表示項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>登録書籍数</td>
+<td><code>books</code> テーブルに登録されている件数</td>
+</tr>
+<tr>
+<td>最近登録された書籍</td>
+<td>IDが大きい順に数件表示する</td>
+</tr>
+<tr>
+<td>表示件数</td>
+<td>3件程度</td>
+</tr>
+<tr>
+<td>0件の場合</td>
+<td>「登録されている書籍はありません。」と表示する</td>
+</tr>
+</tbody>
+</table>
+<h4 id="api仕様案">API仕様案</h4>
+<table>
+<thead>
+<tr>
+<th>メソッド</th>
+<th>URL</th>
+<th>概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/books/summary</code></td>
+<td>登録書籍数と最近登録された書籍を取得する</td>
+</tr>
+</tbody>
+</table>
+<p>レスポンス例:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;count&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;recentBooks&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span> <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;アジャイル&quot;</span><span class="fu">,</span> <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;吉田 チーム&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">9</span><span class="fu">,</span> <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;AWS構築&quot;</span><span class="fu">,</span> <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;山田 太郎&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">8</span><span class="fu">,</span> <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;Docker活用&quot;</span><span class="fu">,</span> <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;山田 太郎&quot;</span> <span class="fu">}</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h4 id="実装方針-4">実装方針</h4>
+<ol type="1">
+<li>API側にトップページ情報取得用のエンドポイントを追加する。</li>
+<li><code>COUNT(*)</code> で登録書籍数を取得する。</li>
+<li><code>ORDER BY id DESC LIMIT 3</code>
+で最近登録された書籍を取得する。</li>
+<li><code>home.js</code> でAPIを呼び出し、トップページへ表示する。</li>
+</ol>
+<h4 id="完了条件-4">完了条件</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>トップページを表示する</td>
+<td>登録書籍数が表示される。</td>
+</tr>
+<tr>
+<td>トップページを表示する</td>
+<td>最近登録された書籍が表示される。</td>
+</tr>
+<tr>
+<td>書籍を新規登録する</td>
+<td>トップページの件数と最近登録された書籍が変わる。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="106-ログイン機能">10.6 ログイン機能</h3>
+<h4 id="目的-5">目的</h4>
+<p>利用者がログインIDとパスワードを入力し、システムにログインできるようにします。</p>
+<h4 id="対象画面-5">対象画面</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象画面</td>
+<td>ログイン画面、トップページ</td>
+</tr>
+<tr>
+<td>対象ファイル</td>
+<td><code>login.js</code>, <code>home.js</code>, <code>app.js</code>,
+<code>api/server.js</code></td>
+</tr>
+<tr>
+<td>対象テーブル</td>
+<td><code>users</code></td>
+</tr>
+<tr>
+<td>対象API</td>
+<td><code>POST /api/v1/login</code> など</td>
+</tr>
+</tbody>
+</table>
+<h4 id="仕様-5">仕様</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ログインID</td>
+<td><code>users.login_id</code> と照合する</td>
+</tr>
+<tr>
+<td>パスワード</td>
+<td><code>users.password</code> と照合する</td>
+</tr>
+<tr>
+<td>ログイン成功</td>
+<td>トップページへ移動する</td>
+</tr>
+<tr>
+<td>ログイン失敗</td>
+<td>ログイン画面にエラーメッセージを表示する</td>
+</tr>
+<tr>
+<td>ログイン状態</td>
+<td>学習用の簡易実装として、ブラウザ側にログイン中ユーザー情報を保持する</td>
+</tr>
+</tbody>
+</table>
+<h4 id="api仕様案-1">API仕様案</h4>
+<table>
+<thead>
+<tr>
+<th>メソッド</th>
+<th>URL</th>
+<th>概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/login</code></td>
+<td>ログインIDとパスワードを確認する</td>
+</tr>
+</tbody>
+</table>
+<p>リクエスト例:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;login_id&quot;</span><span class="fu">:</span> <span class="st">&quot;admin&quot;</span><span class="fu">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;password&quot;</span><span class="fu">:</span> <span class="st">&quot;admin123&quot;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>レスポンス例:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;login_id&quot;</span><span class="fu">:</span> <span class="st">&quot;admin&quot;</span><span class="fu">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;管理者ユーザー&quot;</span><span class="fu">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;role&quot;</span><span class="fu">:</span> <span class="st">&quot;admin&quot;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h4 id="実装方針-5">実装方針</h4>
+<ol type="1">
+<li>ログイン画面を追加する。</li>
+<li><code>users</code>
+テーブルからログインIDに一致するユーザーを取得する。</li>
+<li>パスワードが一致するか確認する。</li>
+<li>一致した場合は、ユーザー情報を返す。</li>
+<li>画面側でログイン中ユーザー情報を保持する。</li>
+<li>トップページにログイン中ユーザー名を表示する。</li>
+</ol>
+<h4 id="完了条件-5">完了条件</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正しいログインIDとパスワードを入力する</td>
+<td>ログインでき、トップページへ移動する。</td>
+</tr>
+<tr>
+<td>間違ったパスワードを入力する</td>
+<td>エラーメッセージが表示される。</td>
+</tr>
+<tr>
+<td>ログイン後のトップページを表示する</td>
+<td>ログイン中ユーザー名が表示される。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="107-権限管理">10.7 権限管理</h3>
+<h4 id="目的-6">目的</h4>
+<p><code>users.role</code>
+の値に応じて、利用できる機能を制御できるようにします。</p>
+<h4 id="対象画面-6">対象画面</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象画面</td>
+<td>トップページ、書籍一覧画面、書籍詳細画面、書籍登録画面</td>
+</tr>
+<tr>
+<td>対象ファイル</td>
+<td><code>app.js</code>, <code>home.js</code>,
+<code>book-detail.js</code>, <code>book-register.js</code>,
+<code>book-update-modal.js</code>,
+<code>book-delete-modal.js</code></td>
+</tr>
+<tr>
+<td>対象テーブル</td>
+<td><code>users</code></td>
+</tr>
+<tr>
+<td>対象列</td>
+<td><code>role</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="仕様-6">仕様</h4>
+<table>
+<thead>
+<tr>
+<th>role</th>
+<th>利用できる機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>admin</code></td>
+<td>一覧、検索、詳細、登録、更新、削除</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>一覧、検索、詳細</td>
+</tr>
+</tbody>
+</table>
+<h4 id="画面制御">画面制御</h4>
+<table>
+<thead>
+<tr>
+<th>画面・操作</th>
+<th>admin</th>
+<th>user</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>書籍一覧表示</td>
+<td>○</td>
+<td>○</td>
+</tr>
+<tr>
+<td>書籍検索</td>
+<td>○</td>
+<td>○</td>
+</tr>
+<tr>
+<td>書籍詳細表示</td>
+<td>○</td>
+<td>○</td>
+</tr>
+<tr>
+<td>書籍登録</td>
+<td>○</td>
+<td>×</td>
+</tr>
+<tr>
+<td>書籍更新</td>
+<td>○</td>
+<td>×</td>
+</tr>
+<tr>
+<td>書籍削除</td>
+<td>○</td>
+<td>×</td>
+</tr>
+</tbody>
+</table>
+<h4 id="実装方針-6">実装方針</h4>
+<ol type="1">
+<li>ログイン中ユーザーの <code>role</code> を取得する。</li>
+<li><code>role</code> が <code>user</code>
+の場合は、書籍登録メニューを表示しない。</li>
+<li><code>role</code> が <code>user</code>
+の場合は、詳細画面の更新・削除ボタンを表示しない。</li>
+<li>不正に登録画面へ移動しようとした場合は、トップページまたは一覧画面へ戻す。</li>
+<li>API側でも必要に応じて <code>role</code> を確認する。</li>
+</ol>
+<h4 id="完了条件-6">完了条件</h4>
+<table>
+<thead>
+<tr>
+<th>確認内容</th>
+<th>期待結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>adminでログインする</td>
+<td>登録、更新、削除が利用できる。</td>
+</tr>
+<tr>
+<td>userでログインする</td>
+<td>登録、更新、削除が表示されない。</td>
+</tr>
+<tr>
+<td>userで登録画面へ移動しようとする</td>
+<td>登録画面を利用できない。</td>
+</tr>
+<tr>
+<td>userで一覧・検索・詳細を使う</td>
+<td>問題なく利用できる。</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
