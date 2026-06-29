@@ -98,10 +98,11 @@ h2 {
     padding: 2.5mm 4mm;
     background: var(--brand-soft);
     border-left: 5px solid var(--brand);
+    break-before: page;
 }
 
 h1 + h2 {
-    break-before: auto;
+    break-before: avoid;
     margin-top: 0;
 }
 
@@ -208,6 +209,11 @@ img {
     box-shadow: 0 2px 10px rgba(29, 57, 148, 0.12);
     object-fit: contain;
     break-inside: avoid;
+}
+
+.layout-diagram-block {
+    break-inside: avoid;
+    margin-bottom: 8mm;
 }
 
 hr {

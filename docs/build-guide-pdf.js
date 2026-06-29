@@ -115,10 +115,11 @@ h2 {
     padding: 2.5mm 4mm;
     background: var(--brand-soft);
     border-left: 5px solid var(--brand);
+    break-before: page;
 }
 
 h1 + h2 {
-    break-before: auto;
+    break-before: avoid;
     margin-top: 0;
 }
 
@@ -227,6 +228,11 @@ img {
     break-inside: avoid;
 }
 
+.layout-diagram-block {
+    break-inside: avoid;
+    margin-bottom: 8mm;
+}
+
 hr {
     border: 0;
     border-top: 1px solid var(--line);
@@ -309,6 +315,17 @@ function runPandoc() {
 
 async function renderPdf() {
     const { pathToFileURL } = require("url");
+    
+    // 古い _new.pdf があれば削除しておく
+    const altPath = pdfPath.replace(".pdf", "_new.pdf");
+    if (fs.existsSync(altPath)) {
+        try {
+            fs.unlinkSync(altPath);
+        } catch (e) {
+            console.log("Could not delete stale _new.pdf:", e.message);
+        }
+    }
+
     const browser = await puppeteer.launch({ headless: "new" });
     try {
         const page = await browser.newPage();
