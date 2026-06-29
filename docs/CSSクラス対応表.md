@@ -20,10 +20,10 @@
 | class名 | 使用場所 | 効果 |
 |---|---|---|
 | `page-title` | 各画面の見出し | 画面タイトルの余白を整える |
-| `content-box` | 各画面の本文全体 | 白背景のまとまりとして表示する。横並びにしたい要素がある場合は、この中でさらにFlexbox用classのdivで囲む |
+| `content-box` | 各画面の本文全体 | 白背景のまとまりとして表示する |
 | `book-table` | 書籍一覧 | 表形式で書籍一覧を表示する |
 | `book-image` | 書籍一覧の画像 | 一覧で表紙画像サイズを揃える |
-| `book-detail-layout` | 書籍詳細画面 | 表紙画像と詳細情報を横並びにする |
+| `book-detail-layout` | 書籍詳細画面 | 表紙画像と詳細情報を横並びにする。詳細画面で横に並べたい要素は、このclassを付けたdivで囲む |
 | `book-detail-image` | 書籍詳細画面の画像 | 詳細画面で表紙画像を大きめに表示する |
 | `book-detail-table` | 書籍詳細画面の情報 | 黒い見出しではなく、薄いグレーの表で詳細情報を表示する |
 | `search-area` | 一覧画面の検索欄 | 検索フォームとボタンを横並びにする |
@@ -83,7 +83,22 @@
 </div>
 ```
 
-`content-box` は画面本文全体の白い枠です。`content-box` の中に、必要に応じて `button-area` や `book-detail-layout` のような横並び用のdivを置きます。
+### 書籍詳細の横並び
+
+書籍詳細画面で、表紙画像を左、詳細情報を右に並べたい場合は、画像と表を `book-detail-layout` のdivで囲みます。
+
+```html
+<div class="book-detail-layout">
+    <img src="/images/1.png" alt="Pythonの教科書" class="book-detail-image">
+    <table class="book-detail-table">
+        <tbody>
+            <tr><th>書籍ID</th><td>1</td></tr>
+            <tr><th>書籍名</th><td>Pythonの教科書</td></tr>
+            <tr><th>著者名</th><td>山田 太郎</td></tr>
+        </tbody>
+    </table>
+</div>
+```
 
 ### 更新Modal
 
