@@ -1,18 +1,16 @@
 const express = require('express');
 const fs = require('fs');
-const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
-const port = process.env.PORT || 3015;
-const indexPath = path.join(__dirname, '..', 'index.html');
-const dbPath = path.join(__dirname, 'books.db');
-const sqlPath = path.join(__dirname, '..', 'db', 'books.sql');
+const port = 3015;
+const dbPath = 'books.db';
+const sqlPath = '../db/books.sql';
 const isNewDb = !fs.existsSync(dbPath);
 const db = new sqlite3.Database(dbPath);
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static('../'));
 
 app.get('/api/test', (req, res) => {
     res.json({ message: 'APIサーバーは起動しています' });
@@ -117,18 +115,6 @@ app.delete('/api/v1/books/:id', (req, res) => {
 
         res.json({ message: '書籍を削除しました。' });
     });
-});
-
-app.get('/', (req, res) => {
-    res.sendFile(indexPath);
-});
-
-app.get('/books', (req, res) => {
-    res.sendFile(indexPath);
-});
-
-app.get('/books/new', (req, res) => {
-    res.sendFile(indexPath);
 });
 
 function startServer() {
