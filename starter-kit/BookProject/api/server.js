@@ -24,10 +24,6 @@ app.get('/books/new', (req, res) => {
     res.sendFile(indexPath);
 });
 
-app.get('/books/:id', (req, res) => {
-    res.sendFile(indexPath);
-});
-
 app.listen(port, () => {
     console.log(`http://localhost:${port} でサーバーが起動しました`);
 });

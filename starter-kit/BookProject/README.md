@@ -6,7 +6,7 @@
 
 - 共通レイアウトを実装した `index.html`
 - デザイン用CSS `css/style.css`
-- ホーム画面だけを表示する `js/app.js`
+- トップページだけを表示する `js/app.js`
 - 動作確認用の `js/components/home.js`
 - 書籍テーブル作成用SQL `db/books.sql`
 - API起動確認用の `api/server.js`
@@ -22,7 +22,7 @@ npm start
 
 `npm start` と `npm run dev` は、どちらもnodemonで `server.js` を起動します。
 
-ブラウザで `http://localhost:3005/` を開き、ホーム画面が表示されることを確認します。
+ブラウザで `http://localhost:3005/` を開き、トップページが表示されることを確認します。
 
 `node_modules` がない場合だけ、次のコマンドで依存パッケージをインストールしてください。
 

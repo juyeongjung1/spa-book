@@ -1,6 +1,6 @@
 export function showHome() {
     document.getElementById('app').innerHTML = `
-        <h1 class="page-title">ホーム</h1>
+        <h1 class="page-title">トップページ</h1>
         <div class="content-box">
             <h2>書籍管理システムへようこそ</h2>
             <p>この画面は、スターターキットの動作確認用です。</p>
