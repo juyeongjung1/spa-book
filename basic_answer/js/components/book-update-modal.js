@@ -30,6 +30,7 @@ export function openUpdateModal(book) {
                         <div class="form-item">
                             <label for="update-image-path">画像パス</label>
                             <input type="text" id="update-image-path" value="${book.image_path || ''}">
+                            <p class="note-text">※例：/images/1.png</p>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -21,7 +21,8 @@ export function showBookRegister() {
             </div>
             <div class="form-item">
                 <label for="image_path">画像パス</label>
-                <input type="text" id="image_path" placeholder="/images/1.png">
+                <input type="text" id="image_path">
+                <p class="note-text">※例：/images/1.png</p>
             </div>
             <div class="button-area">
                 <button type="button" class="btn btn-primary" id="register-button">登録</button>
