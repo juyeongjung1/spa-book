@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE books (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,3 +15,15 @@ INSERT INTO books (title, author, price, publisher, image_path) VALUES
 ('はじめてのWeb API', '佐藤花子', 3200, 'テック書房', '/images/book02.svg'),
 ('SQLite基礎', '鈴木一郎', 2400, 'データ出版', '/images/book03.svg'),
 ('Express実践ガイド', '田中美咲', 3600, 'Node Books', '/images/book04.svg');
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    login_id TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    name TEXT NOT NULL,
+    role TEXT NOT NULL
+);
+
+INSERT INTO users (login_id, password, name, role) VALUES
+('admin', 'admin123', '管理者ユーザー', 'admin'),
+('user', 'user123', '一般ユーザー', 'user');
