@@ -44,8 +44,10 @@ http://localhost:3015/api/test
 
 フロントエンドの画面は、Live Serverで `basic_answer` フォルダを開いて確認します。
 
-正しいURL例:
+正しいURLの形:
 
 ```text
-http://127.0.0.1:5500/
+http://127.0.0.1:ポート番号/
 ```
+
+ポート番号は環境によって変わります。`Open with Live Server` で自動的に開いたURLを使用してください。
