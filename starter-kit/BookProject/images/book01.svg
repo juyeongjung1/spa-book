@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="320" viewBox="0 0 240 320">
+  <rect width="240" height="320" fill="#1f4e79"/>
+  <rect x="24" y="28" width="192" height="264" fill="#ffffff" opacity="0.12"/>
+  <text x="120" y="120" fill="#ffffff" font-family="sans-serif" font-size="28" text-anchor="middle">JavaScript</text>
+  <text x="120" y="160" fill="#ffffff" font-family="sans-serif" font-size="24" text-anchor="middle">入門</text>
+  <text x="120" y="248" fill="#dbeafe" font-family="sans-serif" font-size="16" text-anchor="middle">Book 01</text>
+</svg>
