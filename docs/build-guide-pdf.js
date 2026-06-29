@@ -312,11 +312,16 @@ async function renderPdf() {
     const browser = await puppeteer.launch({ headless: "new" });
     try {
         const page = await browser.newPage();
+        
+        // デバッグ用ログの出力設定
+        page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+        page.on('pageerror', err => console.log('PAGE ERROR:', err.message));
+        
         const fileUrl = pathToFileURL(htmlPath).href;
         console.log(`Navigating to ${fileUrl}`);
         await page.goto(fileUrl, {
             waitUntil: "domcontentloaded",
-            timeout: 60000,
+            timeout: 0,
         });
         await page.emulateMediaType("print");
 
