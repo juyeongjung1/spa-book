@@ -23,17 +23,19 @@ function displayBookDetail(book) {
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍詳細</h1>
         <div class="content-box">
-            <p><img src="${book.image_path || ''}" alt="${book.title}" class="book-image"></p>
-            <table class="book-table">
-                <tbody>
-                    <tr><th>書籍ID</th><td>${book.id}</td></tr>
-                    <tr><th>書籍名</th><td>${book.title}</td></tr>
-                    <tr><th>著者名</th><td>${book.author}</td></tr>
-                    <tr><th>価格</th><td>${book.price}</td></tr>
-                    <tr><th>出版社</th><td>${book.publisher || ''}</td></tr>
-                    <tr><th>画像パス</th><td>${book.image_path || ''}</td></tr>
-                </tbody>
-            </table>
+            <div class="book-detail-layout">
+                <img src="${book.image_path || ''}" alt="${book.title}" class="book-detail-image">
+                <table class="book-detail-table">
+                    <tbody>
+                        <tr><th>書籍ID</th><td>${book.id}</td></tr>
+                        <tr><th>書籍名</th><td>${book.title}</td></tr>
+                        <tr><th>著者名</th><td>${book.author}</td></tr>
+                        <tr><th>価格</th><td>${book.price}</td></tr>
+                        <tr><th>出版社</th><td>${book.publisher || ''}</td></tr>
+                        <tr><th>画像パス</th><td>${book.image_path || ''}</td></tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="button-area">
                 <button type="button" class="btn btn-primary" id="update-button">更新</button>
                 <button type="button" class="btn btn-danger" id="delete-button">削除</button>
