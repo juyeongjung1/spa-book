@@ -1,3 +1,5 @@
+// スターターキットでは、トップページだけを実装済みにしています。
+// 他の画面も同じように、関数の中でHTMLを作成してid="app"へ表示します。
 export function showHome() {
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">トップページ</h1>

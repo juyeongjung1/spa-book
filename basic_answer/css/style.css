@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+    background-color: #f5f7fa;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    color: white;
+    background-color: #1f4e79;
+}
+
+.site-title {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.layout {
+    display: flex;
+    min-height: 75vh;
+}
+
+.sidebar {
+    width: 220px;
+    padding: 24px;
+    background-color: white;
+    border-right: 1px solid #d0d7de;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.sidebar a,
+.mobile-menu-links a {
+    display: block;
+    padding: 10px;
+    color: #333333;
+    text-decoration: none;
+}
+
+.sidebar a:hover,
+.mobile-menu-links a:hover {
+    background-color: #eef3f8;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 24px;
+}
+
+.page-title {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.content-box {
+    padding: 24px;
+    background-color: white;
+    border: 1px solid #d0d7de;
+}
+
+.content-box h2 {
+    margin-top: 0;
+}
+
+.book-table {
+    width: 100%;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    background-color: white;
+    border-collapse: collapse;
+}
+
+.book-table th,
+.book-table td {
+    padding: 10px;
+    border: 1px solid #8c959f;
+    vertical-align: middle;
+}
+
+.book-table th {
+    color: white;
+    background-color: #24292f;
+}
+
+.book-image {
+    width: 64px;
+    height: 88px;
+    object-fit: cover;
+    border: 1px solid #d0d7de;
+    background-color: #f6f8fa;
+}
+
+.search-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.search-area input {
+    width: 100%;
+    max-width: 360px;
+    padding: 8px;
+}
+
+.form-item {
+    margin-bottom: 16px;
+}
+
+.form-item label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.form-item input,
+.form-item select {
+    width: 100%;
+    max-width: 420px;
+    padding: 8px;
+}
+
+.button-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.error-message {
+    color: #d1242f;
+}
+
+.note-text {
+    color: #57606a;
+    font-size: 14px;
+}
+
+.site-footer {
+    padding: 16px;
+    color: white;
+    text-align: center;
+    background-color: #24292f;
+}
+
+.mobile-menu-button {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .mobile-menu-button {
+        display: block;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+}

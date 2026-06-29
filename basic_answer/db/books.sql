@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS users;
 
--- 基本機能で使用する書籍テーブルです。
 CREATE TABLE books (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -11,7 +10,6 @@ CREATE TABLE books (
     image_path TEXT
 );
 
--- imagesフォルダの画像ファイルと対応する初期データです。
 INSERT INTO books (id, title, author, price, publisher, image_path) VALUES
 (1, 'Pythonの教科書', '山田 太郎', 2500, '技術書院', '/images/1.png'),
 (2, 'Vue.js入門', '山田 太郎', 3000, '技術評論社', '/images/2.png'),
@@ -24,8 +22,6 @@ INSERT INTO books (id, title, author, price, publisher, image_path) VALUES
 (9, 'AWS構築', '山田 太郎', 3800, 'インフラ技術社', '/images/9.png'),
 (10, 'アジャイル', '吉田 チーム', 2600, 'J-TECH', '/images/10.png');
 
--- usersテーブルは追加課題のログイン機能・権限管理で使用します。
--- 基本機能では使用しません。
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     login_id TEXT NOT NULL UNIQUE,

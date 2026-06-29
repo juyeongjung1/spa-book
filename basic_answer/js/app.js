@@ -1,11 +1,12 @@
 import { showHome } from './components/home.js';
+import { showBookList } from './components/book-list.js';
+import { showBookDetail } from './components/book-detail.js';
+import { showBookRegister } from './components/book-register.js';
 
-// HTMLの読み込みが終わったら、現在のURLに対応する疑似画面を表示します。
 document.addEventListener('DOMContentLoaded', function() {
     showPage(window.location.pathname);
 });
 
-// リンクをクリックした時にページ全体を再読み込みせず、JavaScriptで画面だけを切り替えます。
 navigation.addEventListener('navigate', function(event) {
     let url = new URL(event.destination.url);
 
@@ -26,7 +27,6 @@ navigation.addEventListener('navigate', function(event) {
 });
 
 function showPage(path) {
-    // 画面を切り替える時は、前の画面で使ったModalを消しておきます。
     document.getElementById('modal-area').innerHTML = '';
 
     if (path === '/' || path === '/index.html') {
@@ -34,10 +34,25 @@ function showPage(path) {
         return;
     }
 
-    // 書籍一覧、書籍詳細、書籍登録などは、総合演習の中でここに追加します。
+    if (path === '/books') {
+        showBookList();
+        return;
+    }
+
+    if (path === '/books/new') {
+        showBookRegister();
+        return;
+    }
+
+    if (path.startsWith('/books/')) {
+        let id = path.replace('/books/', '');
+        showBookDetail(id);
+        return;
+    }
+
     document.getElementById('app').innerHTML = `
-        <h1 class="page-title">未実装の画面</h1>
+        <h1 class="page-title">ページが見つかりません</h1>
         <div class="content-box">
-            <p>このURLに対応する画面は、総合演習で作成します。</p>
+            <p>指定されたURLに対応する画面はありません。</p>
         </div>`;
 }

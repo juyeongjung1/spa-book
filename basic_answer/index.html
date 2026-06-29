@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- 画面上部の共通ヘッダーです。どの疑似画面でも同じヘッダーを使います。 -->
     <header class="site-header">
         <a href="/" class="site-title">書籍管理システム</a>
         <button class="btn btn-outline-light mobile-menu-button" type="button"
@@ -20,7 +19,6 @@
     </header>
 
     <div class="layout">
-        <!-- PC幅で表示するサイドバーです。画面移動はNavigation APIで処理します。 -->
         <aside class="sidebar">
             <h2>メニュー</h2>
             <nav>
@@ -30,14 +28,11 @@
             </nav>
         </aside>
 
-        <!-- JavaScriptで作成した疑似画面は、このmain要素の中に表示します。 -->
         <main id="app" class="main-content"></main>
     </div>
 
-    <!-- 更新Modal、削除Modalなど、JavaScriptで作成するModalの表示場所です。 -->
     <div id="modal-area"></div>
 
-    <!-- モバイル幅で表示するメニューです。三本線ボタンから開きます。 -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu">
         <div class="offcanvas-header">
             <h2 class="offcanvas-title">メニュー</h2>
