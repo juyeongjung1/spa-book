@@ -242,54 +242,120 @@ hr {
 #TOC {
     break-before: page;
     break-after: page;
-    margin-top: 15mm;
-    padding: 0 10mm;
+    padding: 20mm 15mm;
+    background-color: var(--brand-soft);
+    border-radius: 8px;
+    margin: 10mm 0;
+    box-shadow: inset 0 0 20px rgba(233, 75, 34, 0.05);
 }
 
 #TOC h2#toc-title {
-    font-size: 20pt;
-    color: var(--brand);
-    border-bottom: 2px solid var(--brand);
-    padding-bottom: 3mm;
-    margin-bottom: 8mm;
+    font-size: 24pt;
+    color: var(--brand-dark);
+    font-weight: 800;
+    border-bottom: 3px solid var(--brand);
+    padding-bottom: 4mm;
+    margin-bottom: 10mm;
+    display: flex;
+    align-items: center;
 }
 
-#TOC ul {
+#TOC h2#toc-title::before {
+    content: "INDEX";
+    font-size: 10pt;
+    font-weight: 700;
+    background: var(--brand);
+    color: #fff;
+    padding: 1mm 3mm;
+    border-radius: 4px;
+    margin-right: 4mm;
+    letter-spacing: 1px;
+}
+
+#TOC > ul {
     list-style: none;
     padding-left: 0;
     margin-left: 0;
 }
 
-#TOC ul ul {
-    padding-left: 6mm;
-    margin-top: 1.5mm;
-    margin-bottom: 1.5mm;
-}
-
-#TOC li {
-    margin: 2mm 0;
-    line-height: 1.5;
-}
-
-#TOC a {
-    color: var(--ink);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-#TOC a:hover {
-    color: var(--accent);
-    text-decoration: underline;
-}
-
+/* Level 1: Major Chapters */
 #TOC > ul > li {
-    font-size: 11.5pt;
+    margin-top: 6mm;
+    border-left: 4px solid var(--brand);
+    padding-left: 5mm;
+    font-size: 12.5pt;
     font-weight: 700;
-    margin-top: 4.5mm;
-    color: var(--brand-dark);
 }
 
 #TOC > ul > li > a {
     color: var(--brand-dark);
-    font-weight: 700;
+    transition: color 0.2s ease;
+}
+
+#TOC > ul > li > a:hover {
+    color: var(--accent);
+}
+
+/* Level 2: Sub-sections */
+#TOC > ul > li > ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 2mm;
+    margin-bottom: 3mm;
+}
+
+#TOC > ul > li > ul > li {
+    font-size: 10.5pt;
+    font-weight: 600;
+    margin: 2mm 0;
+    color: var(--ink);
+    padding-left: 4mm;
+    position: relative;
+}
+
+#TOC > ul > li > ul > li::before {
+    content: "■";
+    font-size: 6pt;
+    color: var(--brand);
+    position: absolute;
+    left: 0;
+    top: 0.5mm;
+}
+
+#TOC > ul > li > ul > li > a {
+    color: var(--ink);
+}
+
+#TOC > ul > li > ul > li > a:hover {
+    color: var(--accent);
+}
+
+/* Level 3: Details */
+#TOC > ul > li > ul > li > ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1mm;
+    margin-bottom: 2mm;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm 4mm;
+}
+
+#TOC > ul > li > ul > li > ul > li {
+    font-size: 9.5pt;
+    font-weight: 400;
+    margin: 0;
+    color: var(--muted);
+    background: #ffffff;
+    padding: 0.8mm 2.5mm;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+}
+
+#TOC > ul > li > ul > li > ul > li > a {
+    color: var(--muted);
+}
+
+#TOC > ul > li > ul > li > ul > li > a:hover {
+    color: var(--accent);
 }
