@@ -1,20 +1,24 @@
 const express = require('express');
+const cors = require('cors');
+const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
-const port = 3015;
 
 // JSON形式で送信されたリクエストボディを受け取れるようにします。
 app.use(express.json());
 
-// css、js、images、index.htmlなどをブラウザへ配信します。
-app.use(express.static('../'));
+// CORS（他のサーバーからの通信を許可）
+app.use(cors());
+
+// SQLiteデータベースへの接続
+const db = new sqlite3.Database('../db/books.db');
 
 // APIサーバーが起動しているか確認するための練習用APIです。
 app.get('/api/test', (req, res) => {
-    res.json({ message: 'APIサーバーは起動しています' });
+    res.json({ status: 'ok', message: 'APIサーバー稼働中！' });
 });
 
 // 書籍管理APIは、総合演習の中でこの下に追加していきます。
-app.listen(port, () => {
-    console.log(`http://localhost:${port} でサーバーが起動しました`);
+app.listen(3015, () => {
+    console.log('localhost:3015 でAPIサーバーが起動しました');
 });

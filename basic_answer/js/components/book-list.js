@@ -19,7 +19,7 @@ export function showBookList() {
 
 function loadBooks() {
     let keyword = document.getElementById('keyword').value;
-    let url = '/api/v1/books';
+    let url = 'http://localhost:3015/api/v1/books';
 
     if (keyword) {
         url += '?keyword=' + encodeURIComponent(keyword);

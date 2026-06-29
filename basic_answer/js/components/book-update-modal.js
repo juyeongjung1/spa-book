@@ -62,7 +62,7 @@ function updateBook(id, modal) {
         return;
     }
 
-    axios.put('/api/v1/books/' + id, book)
+    axios.put('http://localhost:3015/api/v1/books/' + id, book)
         .then(function() {
             modal.hide();
             showBookDetail(id);

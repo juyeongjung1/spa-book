@@ -1,19 +1,16 @@
 const express = require('express');
-const fs = require('fs');
+const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
-const port = 3015;
-const dbPath = 'books.db';
-const sqlPath = '../db/books.sql';
-const isNewDb = !fs.existsSync(dbPath);
-const db = new sqlite3.Database(dbPath);
 
 app.use(express.json());
-app.use(express.static('../'));
+app.use(cors());
+
+const db = new sqlite3.Database('../db/books.db');
 
 app.get('/api/test', (req, res) => {
-    res.json({ message: 'APIサーバーは起動しています' });
+    res.json({ status: 'ok', message: 'APIサーバー稼働中！' });
 });
 
 app.get('/api/v1/books', (req, res) => {
@@ -117,22 +114,6 @@ app.delete('/api/v1/books/:id', (req, res) => {
     });
 });
 
-function startServer() {
-    app.listen(port, () => {
-        console.log(`http://localhost:${port} でサーバーが起動しました`);
-    });
-}
-
-if (isNewDb) {
-    let sql = fs.readFileSync(sqlPath, 'utf8');
-    db.exec(sql, (err) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-
-        startServer();
-    });
-} else {
-    startServer();
-}
+app.listen(3015, () => {
+    console.log('localhost:3015 でAPIサーバーが起動しました');
+});

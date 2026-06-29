@@ -5,6 +5,7 @@
     "node": "node server.js"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.1.0",
     "sqlite3": "^5.1.7"
   },

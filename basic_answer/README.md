@@ -14,6 +14,7 @@
 - 書籍更新Modal `js/components/book-update-modal.js`
 - 書籍削除Modal `js/components/book-delete-modal.js`
 - 書籍テーブル作成用SQL `db/books.sql`
+- 作成済みデータベース `db/books.db`
 - 書籍管理API `api/server.js`
 - 書籍画像 `images/`
 
@@ -35,10 +36,10 @@ npm start
 
 `npm start` と `npm run dev` は、どちらもnodemonで `server.js` を起動します。
 
-ブラウザで `http://localhost:3015/` を開き、トップページが表示されることを確認します。
-
 API確認用URL:
 
 ```text
 http://localhost:3015/api/test
 ```
+
+フロントエンドの画面は、`index.html` を開いて確認します。

@@ -29,7 +29,7 @@ export function openDeleteModal(book) {
 }
 
 function deleteBook(id, modal) {
-    axios.delete('/api/v1/books/' + id)
+    axios.delete('http://localhost:3015/api/v1/books/' + id)
         .then(function() {
             modal.hide();
             navigation.navigate('/books');

@@ -48,7 +48,7 @@ function registerBook() {
         return;
     }
 
-    axios.post('/api/v1/books', book)
+    axios.post('http://localhost:3015/api/v1/books', book)
         .then(function() {
             alert('書籍を登録しました。');
             navigation.navigate('/books');

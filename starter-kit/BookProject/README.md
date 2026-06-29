@@ -9,6 +9,7 @@
 - トップページだけを表示する `js/app.js`
 - 動作確認用の `js/components/home.js`
 - 書籍テーブル作成用SQL `db/books.sql`
+- 作成済みデータベース `db/books.db`
 - API起動確認用の `api/server.js`
 - 依存パッケージをインストール済みの `api/node_modules`
 - 書籍画像 `images/`
@@ -22,8 +23,6 @@ npm start
 
 `npm start` と `npm run dev` は、どちらもnodemonで `server.js` を起動します。
 
-ブラウザで `http://localhost:3015/` を開き、トップページが表示されることを確認します。
-
 `node_modules` がない場合だけ、次のコマンドで依存パッケージをインストールしてください。
 
 ```bash
@@ -35,3 +34,5 @@ API確認用URL:
 ```text
 http://localhost:3015/api/test
 ```
+
+フロントエンドの画面は、`index.html` を開いて確認します。

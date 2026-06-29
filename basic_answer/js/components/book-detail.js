@@ -2,7 +2,7 @@ import { openUpdateModal } from './book-update-modal.js';
 import { openDeleteModal } from './book-delete-modal.js';
 
 export function showBookDetail(id) {
-    axios.get('/api/v1/books/' + id)
+    axios.get('http://localhost:3015/api/v1/books/' + id)
         .then(function(response) {
             displayBookDetail(response.data);
         })
