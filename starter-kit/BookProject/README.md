@@ -35,4 +35,10 @@ API確認用URL:
 http://localhost:3015/api/test
 ```
 
-フロントエンドの画面は、`index.html` を開いて確認します。
+フロントエンドの画面は、Live Serverで `BookProject` フォルダを開いて確認します。
+
+ワークスペース全体をLive Serverで開いた場合のURL例:
+
+```text
+http://127.0.0.1:5500/starter-kit/BookProject/
+```

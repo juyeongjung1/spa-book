@@ -1,5 +1,6 @@
 import { openUpdateModal } from './book-update-modal.js';
 import { openDeleteModal } from './book-delete-modal.js';
+import { imagePath, routePath } from '../route.js';
 
 export function showBookDetail(id) {
     axios.get('http://localhost:3015/api/v1/books/' + id)
@@ -13,7 +14,7 @@ export function showBookDetail(id) {
                 <div class="content-box">
                     <p class="error-message">書籍情報を取得できませんでした。</p>
                     <div class="button-area">
-                        <a href="/books" class="btn btn-secondary">一覧へ戻る</a>
+                        <a href="${routePath('/books')}" class="btn btn-secondary">一覧へ戻る</a>
                     </div>
                 </div>`;
         });
@@ -23,7 +24,7 @@ function displayBookDetail(book) {
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍詳細</h1>
         <div class="content-box">
-            <p><img src="${book.image_path || ''}" alt="${book.title}" class="book-image"></p>
+            <p><img src="${imagePath(book.image_path)}" alt="${book.title}" class="book-image"></p>
             <table class="book-table">
                 <tbody>
                     <tr><th>書籍ID</th><td>${book.id}</td></tr>
@@ -37,7 +38,7 @@ function displayBookDetail(book) {
             <div class="button-area">
                 <button type="button" class="btn btn-primary" id="update-button">更新</button>
                 <button type="button" class="btn btn-danger" id="delete-button">削除</button>
-                <a href="/books" class="btn btn-secondary">一覧へ戻る</a>
+                <a href="${routePath('/books')}" class="btn btn-secondary">一覧へ戻る</a>
             </div>
         </div>`;
 

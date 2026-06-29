@@ -1,3 +1,5 @@
+import { routePath } from '../route.js';
+
 export function showBookRegister() {
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍登録</h1>
@@ -25,7 +27,7 @@ export function showBookRegister() {
             </div>
             <div class="button-area">
                 <button type="button" class="btn btn-primary" id="register-button">登録</button>
-                <a href="/books" class="btn btn-secondary">一覧へ戻る</a>
+                <a href="${routePath('/books')}" class="btn btn-secondary">一覧へ戻る</a>
             </div>
         </div>`;
 
@@ -51,7 +53,7 @@ function registerBook() {
     axios.post('http://localhost:3015/api/v1/books', book)
         .then(function() {
             alert('書籍を登録しました。');
-            navigation.navigate('/books');
+            navigation.navigate(routePath('/books'));
         })
         .catch(function(error) {
             console.error(error);

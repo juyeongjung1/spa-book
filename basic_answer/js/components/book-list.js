@@ -1,3 +1,5 @@
+import { imagePath, routePath } from '../route.js';
+
 export function showBookList() {
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍一覧</h1>
@@ -64,9 +66,9 @@ function displayBooks(books, keyword) {
     books.forEach(function(book) {
         html += `
             <tr>
-                <td><img src="${book.image_path || ''}" alt="${book.title}" class="book-image"></td>
+                <td><img src="${imagePath(book.image_path)}" alt="${book.title}" class="book-image"></td>
                 <td>${book.id}</td>
-                <td><a href="/books/${book.id}">${book.title}</a></td>
+                <td><a href="${routePath('/books/' + book.id)}">${book.title}</a></td>
                 <td>${book.author}</td>
                 <td>${book.price}</td>
                 <td>${book.publisher || ''}</td>
