@@ -69,6 +69,46 @@ body {
     margin-top: 0;
 }
 
+.home-summary {
+    margin-bottom: 24px;
+}
+
+.home-summary p {
+    max-width: 720px;
+    margin-bottom: 16px;
+    line-height: 1.7;
+}
+
+.home-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.home-feature-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.home-feature-item {
+    flex: 1;
+    min-width: 220px;
+    padding: 16px;
+    border: 1px solid #d0d7de;
+    background-color: #f6f8fa;
+}
+
+.home-feature-item h3 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.home-feature-item p {
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
 .book-table {
     width: 100%;
     margin-top: 16px;
