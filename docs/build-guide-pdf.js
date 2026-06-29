@@ -12,6 +12,8 @@ const cssPath = path.join(tmpDir, "guide.css");
 const htmlPath = path.join(tmpDir, "総合演習ガイド.html");
 const pdfPath = path.join(outDir, "SPA入門_総合演習ガイド.pdf");
 const previewPath = path.join(tmpDir, "総合演習ガイド_preview.png");
+const logoPath = path.join(tmpDir, "trainocate_logo.png");
+const logoUrl = "https://www.trainocate.co.jp/top_common/images/trainocate_logo.png";
 
 const css = String.raw`
 :root {
@@ -25,6 +27,7 @@ const css = String.raw`
     --accent: #1d3994;
     --accent-soft: #eef3ff;
     --code-bg: #fffaf7;
+    --guide-logo: none;
 }
 
 html {
@@ -50,6 +53,17 @@ body {
     border-left: 10px solid var(--brand);
     padding-left: 18mm;
     break-after: page;
+    position: relative;
+}
+
+#title-block-header::before {
+    content: "";
+    position: absolute;
+    top: 10mm;
+    left: 18mm;
+    width: 52mm;
+    height: 8mm;
+    background: var(--guide-logo) left center / contain no-repeat;
 }
 
 #title-block-header .title {
@@ -231,10 +245,45 @@ hr {
 }
 `;
 
+function logoDataUri() {
+    const bytes = fs.readFileSync(logoPath);
+    return `url("data:image/png;base64,${bytes.toString("base64")}")`;
+}
+
+function downloadLogo() {
+    fs.mkdirSync(tmpDir, { recursive: true });
+    if (fs.existsSync(logoPath)) {
+        return;
+    }
+    execFileSync(
+        "node",
+        [
+            "-e",
+            `fetch(${JSON.stringify(logoUrl)}).then(async r => { if (!r.ok) throw new Error(String(r.status)); const b = Buffer.from(await r.arrayBuffer()); require('fs').writeFileSync(${JSON.stringify(logoPath)}, b); })`,
+        ],
+        { cwd: root, stdio: "inherit" }
+    );
+}
+
+function copyImages() {
+    const srcImages = path.join(docsDir, "images");
+    const destImages = path.join(tmpDir, "images");
+    if (fs.existsSync(srcImages)) {
+        fs.mkdirSync(destImages, { recursive: true });
+        const files = fs.readdirSync(srcImages);
+        for (const file of files) {
+            fs.copyFileSync(path.join(srcImages, file), path.join(destImages, file));
+        }
+        console.log(`Copied ${files.length} images to ${destImages}`);
+    }
+}
+
 function runPandoc() {
     fs.mkdirSync(tmpDir, { recursive: true });
     fs.mkdirSync(outDir, { recursive: true });
-    fs.writeFileSync(cssPath, css, "utf8");
+    downloadLogo();
+    copyImages();
+    fs.writeFileSync(cssPath, css.replace("--guide-logo: none;", `--guide-logo: ${logoDataUri()};`), "utf8");
 
     execFileSync(
         "pandoc",
@@ -259,17 +308,49 @@ function runPandoc() {
 }
 
 async function renderPdf() {
+    const { pathToFileURL } = require("url");
     const browser = await puppeteer.launch({ headless: "new" });
     try {
         const page = await browser.newPage();
-        await page.goto(`file://${htmlPath.replace(/\\/g, "/")}`, {
-            waitUntil: "load",
+        const fileUrl = pathToFileURL(htmlPath).href;
+        console.log(`Navigating to ${fileUrl}`);
+        await page.goto(fileUrl, {
+            waitUntil: "domcontentloaded",
             timeout: 60000,
         });
         await page.emulateMediaType("print");
 
-        await page.pdf({
-            path: pdfPath,
+        // Mermaidのレンダリング
+        console.log("Rendering Mermaid diagrams...");
+        await page.evaluate(() => {
+            const mermaidBlocks = document.querySelectorAll('pre.mermaid');
+            for (const block of mermaidBlocks) {
+                const codeEl = block.querySelector('code');
+                if (codeEl) {
+                    const codeText = codeEl.textContent;
+                    const div = document.createElement('div');
+                    div.className = 'mermaid';
+                    div.textContent = codeText;
+                    block.replaceWith(div);
+                }
+            }
+        });
+
+        await page.addScriptTag({ url: 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js' });
+        
+        await page.evaluate(() => {
+            mermaid.initialize({ startOnLoad: true, theme: 'default' });
+        });
+
+        // 全てのMermaidブロックがレンダリング完了するまで待つ
+        await page.waitForFunction(() => {
+            const els = Array.from(document.querySelectorAll('.mermaid'));
+            return els.every(el => el.getAttribute('data-processed') === 'true');
+        }, { timeout: 20000 });
+        console.log("Mermaid diagrams rendered!");
+
+        console.log("Saving PDF...");
+        const pdfOptions = {
             format: "A4",
             printBackground: true,
             displayHeaderFooter: true,
@@ -287,7 +368,26 @@ async function renderPdf() {
                     <span><span class="pageNumber"></span> / <span class="totalPages"></span></span>
                 </div>
             `,
-        });
+        };
+
+        try {
+            await page.pdf({
+                path: pdfPath,
+                ...pdfOptions
+            });
+        } catch (err) {
+            if (err.message && (err.message.includes("EBUSY") || err.message.includes("busy or locked"))) {
+                const altPath = pdfPath.replace(".pdf", "_new.pdf");
+                console.warn(`\n⚠️ Warning: PDF file is locked by another process (likely your PDF viewer).`);
+                console.warn(`Saving the updated PDF to: ${altPath}\n`);
+                await page.pdf({
+                    path: altPath,
+                    ...pdfOptions
+                });
+            } else {
+                throw err;
+            }
+        }
 
         await page.setViewport({ width: 794, height: 1123, deviceScaleFactor: 1 });
         await page.screenshot({ path: previewPath, fullPage: false });
@@ -297,11 +397,16 @@ async function renderPdf() {
 }
 
 function inspectPdf() {
-    const bytes = fs.readFileSync(pdfPath);
+    let targetPath = pdfPath;
+    const altPath = pdfPath.replace(".pdf", "_new.pdf");
+    if (fs.existsSync(altPath)) {
+        targetPath = altPath;
+    }
+    const bytes = fs.readFileSync(targetPath);
     const text = bytes.toString("latin1");
     const pageCount = (text.match(/\/Type\s*\/Page\b/g) || []).length;
     const sizeMb = (bytes.length / 1024 / 1024).toFixed(2);
-    console.log(`PDF: ${pdfPath}`);
+    console.log(`PDF: ${targetPath}`);
     console.log(`Preview: ${previewPath}`);
     console.log(`Pages: ${pageCount}`);
     console.log(`Size: ${sizeMb} MB`);
