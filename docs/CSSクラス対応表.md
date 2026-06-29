@@ -20,7 +20,7 @@
 | class名 | 使用場所 | 効果 |
 |---|---|---|
 | `page-title` | 各画面の見出し | 画面タイトルの余白を整える |
-| `content-box` | ホーム、フォーム、詳細補助領域 | 白背景のまとまりとして表示する |
+| `content-box` | 各画面の本文全体 | 白背景のまとまりとして表示する。横並びにしたい要素がある場合は、この中でさらにFlexbox用classのdivで囲む |
 | `book-table` | 書籍一覧 | 表形式で書籍一覧を表示する |
 | `book-image` | 書籍一覧の画像 | 一覧で表紙画像サイズを揃える |
 | `book-detail-layout` | 書籍詳細画面 | 表紙画像と詳細情報を横並びにする |
@@ -28,7 +28,7 @@
 | `book-detail-table` | 書籍詳細画面の情報 | 黒い見出しではなく、薄いグレーの表で詳細情報を表示する |
 | `search-area` | 一覧画面の検索欄 | 検索フォームとボタンを横並びにする |
 | `form-item` | 登録・更新フォーム | ラベルと入力欄を縦に並べる |
-| `button-area` | 詳細・登録画面のボタン群 | ボタンを横並びにする |
+| `button-area` | 詳細・登録画面のボタン群 | 複数のボタンを横並びにする。横に並べたいボタンは、このclassを付けたdivで囲む |
 | `error-message` | 入力エラー表示 | 赤文字でエラーを表示する |
 | `note-text` | 入力例や補足 | 小さめの補足テキストを表示する |
 
@@ -73,6 +73,8 @@
 
 ### ボタン配置
 
+複数のボタンを横並びにしたい場合は、ボタンを `button-area` のdivで囲みます。
+
 ```html
 <div class="button-area">
     <button type="button" class="btn btn-primary">更新</button>
@@ -80,6 +82,8 @@
     <a href="/books" class="btn btn-secondary">一覧へ戻る</a>
 </div>
 ```
+
+`content-box` は画面本文全体の白い枠です。`content-box` の中に、必要に応じて `button-area` や `book-detail-layout` のような横並び用のdivを置きます。
 
 ### 更新Modal
 
