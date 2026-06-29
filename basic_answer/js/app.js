@@ -2,11 +2,9 @@ import { showHome } from './components/home.js';
 import { showBookList } from './components/book-list.js';
 import { showBookDetail } from './components/book-detail.js';
 import { showBookRegister } from './components/book-register.js';
-import { getBasePath } from './route.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    setupRouteLinks();
-    showPage(getRoutePath(window.location.pathname));
+    showPage(window.location.pathname);
 });
 
 navigation.addEventListener('navigate', function(event) {
@@ -23,29 +21,10 @@ navigation.addEventListener('navigate', function(event) {
 
     event.intercept({
         handler: function() {
-            showPage(getRoutePath(url.pathname));
+            showPage(url.pathname);
         }
     });
 });
-
-function getRoutePath(path) {
-    let basePath = getBasePath();
-
-    if (basePath && path.startsWith(basePath)) {
-        return path.replace(basePath, '') || '/';
-    }
-
-    return path;
-}
-
-function setupRouteLinks() {
-    let basePath = getBasePath();
-    let links = document.querySelectorAll('[data-route]');
-
-    links.forEach(function(link) {
-        link.href = basePath + link.dataset.route;
-    });
-}
 
 function showPage(path) {
     document.getElementById('modal-area').innerHTML = '';

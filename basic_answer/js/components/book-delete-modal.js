@@ -1,5 +1,3 @@
-import { routePath } from '../route.js';
-
 export function openDeleteModal(book) {
     document.getElementById('modal-area').innerHTML = `
         <div class="modal fade" id="deleteModal" tabindex="-1">
@@ -34,7 +32,7 @@ function deleteBook(id, modal) {
     axios.delete('http://localhost:3015/api/v1/books/' + id)
         .then(function() {
             modal.hide();
-            navigation.navigate(routePath('/books'));
+            navigation.navigate('/books');
         })
         .catch(function(error) {
             console.error(error);

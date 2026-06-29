@@ -44,8 +44,8 @@ http://localhost:3015/api/test
 
 フロントエンドの画面は、Live Serverで `basic_answer` フォルダを開いて確認します。
 
-ワークスペース全体をLive Serverで開いた場合のURL例:
+正しいURL例:
 
 ```text
-http://127.0.0.1:5500/basic_answer/
+http://127.0.0.1:5500/
 ```
