@@ -10,17 +10,25 @@
 - 動作確認用の `js/components/home.js`
 - 書籍テーブル作成用SQL `db/books.sql`
 - API起動確認用の `api/server.js`
+- 依存パッケージをインストール済みの `api/node_modules`
 - 書籍画像 `images/`
 
 ## 起動確認
 
 ```bash
 cd api
-npm install
 npm start
 ```
 
+`npm start` と `npm run dev` は、どちらもnodemonで `server.js` を起動します。
+
 ブラウザで `http://localhost:3005/` を開き、ホーム画面が表示されることを確認します。
+
+`node_modules` がない場合だけ、次のコマンドで依存パッケージをインストールしてください。
+
+```bash
+npm install
+```
 
 API確認用URL:
 
