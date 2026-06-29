@@ -1,4 +1,7 @@
+// 書籍削除Modalを開く関数です。
+// 削除前に書籍名を表示し、利用者に確認してもらいます。
 export function openDeleteModal(book) {
+    // 削除確認Modalも、必要になった時にJavaScriptで作成します。
     document.getElementById('modal-area').innerHTML = `
         <div class="modal fade" id="deleteModal" tabindex="-1">
             <div class="modal-dialog">
@@ -20,17 +23,22 @@ export function openDeleteModal(book) {
             </div>
         </div>`;
 
+    // 作成したHTMLをBootstrapのModalとして表示します。
     let modal = new bootstrap.Modal(document.getElementById('deleteModal'));
     modal.show();
 
+    // 削除ボタンを押した時だけ、DELETE APIを呼び出します。
     document.getElementById('delete-submit-button').addEventListener('click', function() {
         deleteBook(book.id, modal);
     });
 }
 
+// 指定されたidの書籍を削除する関数です。
 function deleteBook(id, modal) {
+    // DELETEは削除に使います。削除対象はURLの末尾のidで指定します。
     axios.delete('http://localhost:3015/api/v1/books/' + id)
         .then(function() {
+            // 削除後はModalを閉じ、一覧画面へ戻ります。
             modal.hide();
             navigation.navigate('/books');
         })

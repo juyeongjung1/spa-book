@@ -1,6 +1,8 @@
 import { openUpdateModal } from './book-update-modal.js';
 import { openDeleteModal } from './book-delete-modal.js';
 
+// 書籍詳細画面を表示する関数です。
+// 一覧画面で選択されたidを使って、APIから1件分の書籍情報を取得します。
 export function showBookDetail(id) {
     axios.get('http://localhost:3015/api/v1/books/' + id)
         .then(function(response) {
@@ -19,6 +21,7 @@ export function showBookDetail(id) {
         });
 }
 
+// APIから受け取った1件分の書籍情報を、詳細画面のHTMLに変換します。
 function displayBookDetail(book) {
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍詳細</h1>
@@ -43,10 +46,12 @@ function displayBookDetail(book) {
             </div>
         </div>`;
 
+    // 更新ボタンを押したら、現在表示しているbookを使って更新Modalを開きます。
     document.getElementById('update-button').addEventListener('click', function() {
         openUpdateModal(book);
     });
 
+    // 削除ボタンを押したら、現在表示しているbookを使って削除Modalを開きます。
     document.getElementById('delete-button').addEventListener('click', function() {
         openDeleteModal(book);
     });

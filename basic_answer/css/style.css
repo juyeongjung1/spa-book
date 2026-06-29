@@ -3,6 +3,7 @@ body {
     background-color: #f5f7fa;
 }
 
+/* ヘッダー、サイドバー、メイン領域など、全画面で共通するレイアウトです。 */
 .site-header {
     display: flex;
     justify-content: space-between;
@@ -69,6 +70,7 @@ body {
     margin-top: 0;
 }
 
+/* トップページの概要、主要操作ボタン、機能案内カードのスタイルです。 */
 .home-summary {
     margin-bottom: 24px;
 }
@@ -109,6 +111,7 @@ body {
     line-height: 1.6;
 }
 
+/* 書籍一覧画面の表と、一覧用の小さな表紙画像のスタイルです。 */
 .book-table {
     width: 100%;
     margin-top: 16px;
@@ -137,6 +140,7 @@ body {
     background-color: #f6f8fa;
 }
 
+/* 書籍詳細画面で、表紙画像と詳細情報を横並びにするためのスタイルです。 */
 .book-detail-layout {
     display: flex;
     flex-wrap: wrap;
@@ -152,6 +156,7 @@ body {
     background-color: #f6f8fa;
 }
 
+/* 詳細情報の表は、一覧表よりも落ち着いた見た目にします。 */
 .book-detail-table {
     min-width: 280px;
     max-width: 640px;
@@ -173,6 +178,7 @@ body {
     background-color: #f6f8fa;
 }
 
+/* 検索欄、入力フォーム、ボタン配置など、各画面で共通して使う部品です。 */
 .search-area {
     display: flex;
     flex-wrap: wrap;
@@ -226,6 +232,7 @@ body {
     background-color: #24292f;
 }
 
+/* モバイル幅ではサイドバーを隠し、三本線ボタンからOffcanvasメニューを開きます。 */
 .mobile-menu-button {
     display: none;
 }

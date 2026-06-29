@@ -1,6 +1,9 @@
 import { showBookDetail } from './book-detail.js';
 
+// 書籍更新Modalを開く関数です。
+// 詳細画面で表示中のbookを受け取り、その値をフォームの初期値にします。
 export function openUpdateModal(book) {
+    // Modalはindex.htmlに直接書かず、必要になった時にJavaScriptで作成します。
     document.getElementById('modal-area').innerHTML = `
         <div class="modal fade" id="updateModal" tabindex="-1">
             <div class="modal-dialog">
@@ -41,15 +44,19 @@ export function openUpdateModal(book) {
             </div>
         </div>`;
 
+    // 作成したHTMLをBootstrapのModalとして表示します。
     let modal = new bootstrap.Modal(document.getElementById('updateModal'));
     modal.show();
 
+    // Modal内の更新ボタンを押した時、入力値をAPIへ送ります。
     document.getElementById('update-submit-button').addEventListener('click', function() {
         updateBook(book.id, modal);
     });
 }
 
+// 更新Modalの入力値を取得し、既存の書籍情報を更新する関数です。
 function updateBook(id, modal) {
+    // APIへ送信するため、フォームの値をbookオブジェクトにまとめます。
     let book = {
         title: document.getElementById('update-title').value,
         author: document.getElementById('update-author').value,
@@ -58,13 +65,16 @@ function updateBook(id, modal) {
         image_path: document.getElementById('update-image-path').value
     };
 
+    // 登録と同じく、必須項目が空の場合はAPIを呼び出さずに止めます。
     if (!book.title || !book.author || !book.price) {
         document.getElementById('update-message').textContent = 'データを入力してください。';
         return;
     }
 
+    // PUTは既存データの更新に使います。URLの末尾に更新対象のidを付けます。
     axios.put('http://localhost:3015/api/v1/books/' + id, book)
         .then(function() {
+            // 更新できたらModalを閉じ、詳細画面を再読み込みして最新状態を表示します。
             modal.hide();
             showBookDetail(id);
         })
