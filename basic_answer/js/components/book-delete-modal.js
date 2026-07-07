@@ -1,9 +1,5 @@
-﻿// 書籍削除Modalを開く関数です。
-// 削除前に書籍名を表示し、利用者に確認してもらいます。
+// 書籍削除の確認画面と削除処理をまとめたModalコンポーネントです。
 export function openDeleteModal(book) {
-    /* ここから openDeleteModal() の中です。 */
-
-    // 削除確認Modalも、必要になった時にJavaScriptで作成します。
     document.getElementById('modal-area').innerHTML = `
         <div class="modal fade" id="deleteModal" tabindex="-1">
             <div class="modal-dialog">
@@ -13,49 +9,31 @@ export function openDeleteModal(book) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <div id="delete-message" class="error-message"></div>
+                        <p id="deleteMessage" class="error-message"></p>
                         <p>次の書籍を削除します。よろしいですか。</p>
                         <p><strong>${book.title}</strong></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                        <button type="button" class="btn btn-danger" id="delete-submit-button">削除</button>
+                        <button type="button" class="btn btn-danger" id="deleteBtn">削除</button>
                     </div>
                 </div>
             </div>
         </div>`;
 
-    // 作成したHTMLをBootstrapのModalとして表示します。
-    let modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    modal.show();
+    let deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
 
-    // 削除ボタンを押した時だけ、DELETE APIを呼び出します。
-    document.getElementById('delete-submit-button').addEventListener('click', function() {
-        deleteBook(book.id, modal);
-    });
-
-    /* ここまで openDeleteModal() の中です。 */
-}
-
-/*
- * ここから openDeleteModal() の外です。
- * deleteBook() は、指定された書籍を削除するAPIを呼び出す関数です。
- */
-// 指定されたidの書籍を削除する関数です。
-function deleteBook(id, modal) {
-    /* ここから deleteBook() の中です。 */
-
-    // DELETEは削除に使います。削除対象はURLの末尾のidで指定します。
-    axios.delete('http://localhost:3015/api/v1/books/' + id)
+    document.getElementById('deleteBtn').addEventListener('click', function() {
+        // 書籍IDをURLパラメータとしてDELETE APIへ送ります。
+        axios.delete(`http://localhost:3015/api/v1/books/${book.id}`)
         .then(function() {
-            // 削除後はModalを閉じ、一覧画面へ戻ります。
-            modal.hide();
+            deleteModal.hide();
             navigation.navigate('/books');
         })
         .catch(function(error) {
-            console.error(error);
-            document.getElementById('delete-message').textContent = '書籍を削除できませんでした。';
+            document.getElementById('deleteMessage').innerHTML = '書籍を削除できませんでした。';
+            console.error('書籍削除に失敗しました:', error);
         });
-
-    /* ここまで deleteBook() の中です。 */
+    });
 }

@@ -1,14 +1,11 @@
-﻿import { saveLoginUser } from '../auth.js';
+import { saveLoginUser } from '../auth.js';
 
-// ログイン画面を表示する関数です。
+// ログイン画面を表示するコンポーネントです。
 export function showLogin() {
-    /* ここから showLogin() の中です。 */
-
     document.getElementById('modal-area').innerHTML = '';
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">ログイン</h1>
         <div class="content-box">
-            <div id="login-message" class="error-message"></div>
             <div class="form-item">
                 <label for="login_id">ログインID</label>
                 <input type="text" id="login_id">
@@ -19,45 +16,36 @@ export function showLogin() {
                 <input type="password" id="password">
                 <p class="note-text">※管理者：admin123 / 一般ユーザー：user123</p>
             </div>
+            <p id="loginMessage" class="error-message"></p>
             <div class="button-area">
-                <button type="button" class="btn btn-primary" id="login-button">ログイン</button>
+                <button type="button" class="btn btn-primary" id="loginBtn">ログイン</button>
             </div>
         </div>`;
 
-    document.getElementById('login-button').addEventListener('click', function() {
-        login();
-    });
+    document.getElementById('loginBtn').addEventListener('click', function() {
+        let loginId = document.getElementById('login_id').value;
+        let password = document.getElementById('password').value;
+        let loginMessage = document.getElementById('loginMessage');
 
-    /* ここまで showLogin() の中です。 */
-}
+        loginMessage.innerHTML = '';
 
-/*
- * ここから showLogin() の外です。
- * login() は、入力されたログインIDとパスワードを使ってログインAPIを呼び出す関数です。
- */
-function login() {
-    /* ここから login() の中です。 */
+        if (!loginId || !password) {
+            loginMessage.innerHTML = 'ログインIDとパスワードを入力してください。';
+            return;
+        }
 
-    let loginData = {
-        login_id: document.getElementById('login_id').value,
-        password: document.getElementById('password').value
-    };
-
-    if (!loginData.login_id || !loginData.password) {
-        document.getElementById('login-message').textContent = 'ログインIDとパスワードを入力してください。';
-        return;
-    }
-
-    axios.post('http://localhost:3015/api/v1/login', loginData)
+        axios.post('http://localhost:3015/api/v1/login', {
+            login_id: loginId,
+            password: password
+        })
         .then(function(response) {
             saveLoginUser(response.data);
             sessionStorage.setItem('appMessage', 'ログインしました。');
             navigation.navigate('/');
         })
         .catch(function(error) {
+            loginMessage.innerHTML = 'ログインIDまたはパスワードが正しくありません。';
             console.error(error);
-            document.getElementById('login-message').textContent = 'ログインIDまたはパスワードが正しくありません。';
         });
-
-    /* ここまで login() の中です。 */
+    });
 }

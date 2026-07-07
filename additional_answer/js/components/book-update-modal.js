@@ -1,10 +1,8 @@
-﻿import { getLoginUser } from '../auth.js';
+import { getLoginUser } from '../auth.js';
 import { showBookDetail } from './book-detail.js';
 
-// 書籍更新Modalを開く関数です。
+// 書籍更新フォームと更新処理をまとめたModalコンポーネントです。
 export function openUpdateModal(book) {
-    /* ここから openUpdateModal() の中です。 */
-
     document.getElementById('modal-area').innerHTML = `
         <div class="modal fade" id="updateModal" tabindex="-1">
             <div class="modal-dialog">
@@ -14,104 +12,84 @@ export function openUpdateModal(book) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <div id="update-message" class="error-message"></div>
+                        <p id="updateMessage" class="error-message"></p>
                         <div class="form-item">
-                            <label for="update-title">書籍名</label>
-                            <input type="text" id="update-title" value="${book.title}">
+                            <label for="updateTitle">書籍名</label>
+                            <input type="text" id="updateTitle" value="${book.title}">
                         </div>
                         <div class="form-item">
-                            <label for="update-author">著者名</label>
-                            <input type="text" id="update-author" value="${book.author}">
+                            <label for="updateAuthor">著者名</label>
+                            <input type="text" id="updateAuthor" value="${book.author}">
                         </div>
                         <div class="form-item">
-                            <label for="update-price">価格</label>
-                            <input type="number" id="update-price" value="${book.price}">
+                            <label for="updatePrice">価格</label>
+                            <input type="number" id="updatePrice" value="${book.price}">
                         </div>
                         <div class="form-item">
-                            <label for="update-publisher">出版社</label>
-                            <input type="text" id="update-publisher" value="${book.publisher || ''}">
+                            <label for="updatePublisher">出版社</label>
+                            <input type="text" id="updatePublisher" value="${book.publisher || ''}">
                         </div>
                         <div class="form-item">
-                            <label for="update-image-path">画像パス</label>
-                            <input type="text" id="update-image-path" value="${book.image_path || ''}">
+                            <label for="updateImagePath">画像パス</label>
+                            <input type="text" id="updateImagePath" value="${book.image_path || ''}">
                             <p class="note-text">※例：/images/1.png</p>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                        <button type="button" class="btn btn-primary" id="update-submit-button">更新</button>
+                        <button type="button" class="btn btn-primary" id="updateBtn">更新</button>
                     </div>
                 </div>
             </div>
         </div>`;
 
-    let modal = new bootstrap.Modal(document.getElementById('updateModal'));
-    modal.show();
+    let updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
+    updateModal.show();
 
-    document.getElementById('update-submit-button').addEventListener('click', function() {
-        updateBook(book.id, modal);
-    });
+    document.getElementById('updateBtn').addEventListener('click', function() {
+        let user = getLoginUser();
+        let title = document.getElementById('updateTitle').value;
+        let author = document.getElementById('updateAuthor').value;
+        let price = document.getElementById('updatePrice').value;
+        let publisher = document.getElementById('updatePublisher').value;
+        let imagePath = document.getElementById('updateImagePath').value;
+        let updateMessage = document.getElementById('updateMessage');
 
-    /* ここまで openUpdateModal() の中です。 */
-}
+        updateMessage.innerHTML = '';
 
-/*
- * ここから openUpdateModal() の外です。
- * updateBook() は、更新Modalの入力値を読み取って更新APIを呼び出す関数です。
- */
-function updateBook(id, modal) {
-    /* ここから updateBook() の中です。 */
+        if (!title) {
+            updateMessage.innerHTML = '書籍名を入力してください。';
+            return;
+        }
+        if (!author) {
+            updateMessage.innerHTML = '著者名を入力してください。';
+            return;
+        }
+        if (!price) {
+            updateMessage.innerHTML = '価格を入力してください。';
+            return;
+        }
+        if (Number.isNaN(Number(price)) || Number(price) < 1) {
+            updateMessage.innerHTML = '価格は1以上の数値を入力してください。';
+            return;
+        }
 
-    let user = getLoginUser();
-    let book = {
-        title: document.getElementById('update-title').value,
-        author: document.getElementById('update-author').value,
-        price: document.getElementById('update-price').value,
-        publisher: document.getElementById('update-publisher').value,
-        image_path: document.getElementById('update-image-path').value,
-        role: user.role
-    };
-
-    let message = validateBook(book);
-    if (message) {
-        document.getElementById('update-message').textContent = message;
-        return;
-    }
-
-    axios.put('http://localhost:3015/api/v1/books/' + id, book)
+        axios.put(`http://localhost:3015/api/v1/books/${book.id}`, {
+            title: title,
+            author: author,
+            price: price,
+            publisher: publisher,
+            image_path: imagePath,
+            role: user.role
+        })
         .then(function() {
-            modal.hide();
+            updateModal.hide();
             sessionStorage.setItem('appMessage', '書籍を更新しました。');
-            showBookDetail(id);
+            showBookDetail(book.id);
         })
         .catch(function(error) {
-            console.error(error);
-            document.getElementById('update-message').textContent = '書籍を更新できませんでした。';
+            updateMessage.innerHTML = '書籍を更新できませんでした。';
+            console.error('書籍更新に失敗しました:', error);
         });
-
-    /* ここまで updateBook() の中です。 */
-}
-
-// validateBook() は、更新APIを呼び出す前に入力値を確認する追加機能の関数です。
-function validateBook(book) {
-    /* ここから validateBook() の中です。 */
-
-    if (!book.title) {
-        return '書籍名を入力してください。';
-    }
-
-    if (!book.author) {
-        return '著者名を入力してください。';
-    }
-
-    if (!book.price) {
-        return '価格を入力してください。';
-    }
-
-    if (Number.isNaN(Number(book.price)) || Number(book.price) < 1) {
-        return '価格は1以上の数値を入力してください。';
-    }
-
-    /* ここまで validateBook() の中です。 */
-    return '';
+    });
 }

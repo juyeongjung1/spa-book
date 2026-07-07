@@ -1,12 +1,9 @@
-﻿// 書籍登録画面を表示する関数です。
+// 書籍登録画面を表示するコンポーネントです。
 export function showBookRegister() {
-    /* ここから showBookRegister() の中です。 */
-
-    // 入力フォームを作成します。入力値は登録ボタンを押した時に取得します。
+    // 最初に書籍登録フォームをapp要素へ表示します。
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍登録</h1>
         <div class="content-box">
-            <div id="register-message" class="error-message"></div>
             <div class="form-item">
                 <label for="title">書籍名</label>
                 <input type="text" id="title">
@@ -28,53 +25,45 @@ export function showBookRegister() {
                 <input type="text" id="image_path">
                 <p class="note-text">※例：/images/1.png</p>
             </div>
+            <p id="errorMessage" class="error-message"></p>
             <div class="button-area">
-                <button type="button" class="btn btn-primary" id="register-button">登録</button>
+                <button type="button" class="btn btn-primary" id="registerBtn">登録</button>
                 <a href="/books" class="btn btn-secondary">一覧へ戻る</a>
             </div>
         </div>`;
 
-    // 登録ボタンを押した時だけ、入力値を集めてAPIへ送信します。
-    document.getElementById('register-button').addEventListener('click', function() {
-        registerBook();
-    });
+    // 登録ボタンを押した時だけ、入力値を取得してAPIへ送信します。
+    document.getElementById('registerBtn').addEventListener('click', function() {
+        let title = document.getElementById('title').value;
+        let author = document.getElementById('author').value;
+        let price = document.getElementById('price').value;
+        let publisher = document.getElementById('publisher').value;
+        let imagePath = document.getElementById('image_path').value;
+        let errorMessage = document.getElementById('errorMessage');
 
-    /* ここまで showBookRegister() の中です。 */
-}
+        errorMessage.innerHTML = '';
 
-/*
- * ここから showBookRegister() の外です。
- * registerBook() は、入力値を読み取って登録APIを呼び出すための関数です。
- */
-// 入力フォームの値を取得し、新しい書籍として登録する関数です。
-function registerBook() {
-    /* ここから registerBook() の中です。 */
+        // 必須項目が不足する場合はAPIを呼ばず、returnで処理を終了します。
+        if (!title || !author || !price) {
+            errorMessage.innerHTML = '書籍名、著者名、価格を入力してください。';
+            return;
+        }
 
-    // APIに送るデータを、booksテーブルの列名に合わせたオブジェクトとして作成します。
-    let book = {
-        title: document.getElementById('title').value,
-        author: document.getElementById('author').value,
-        price: document.getElementById('price').value,
-        publisher: document.getElementById('publisher').value,
-        image_path: document.getElementById('image_path').value
-    };
-
-    // 必須項目が空の場合は、APIを呼び出す前に画面側で止めます。
-    if (!book.title || !book.author || !book.price) {
-        document.getElementById('register-message').textContent = 'データを入力してください。';
-        return;
-    }
-
-    // POSTは新規登録に使います。登録に成功したら一覧画面へ移動します。
-    axios.post('http://localhost:3015/api/v1/books', book)
+        // 第2引数のオブジェクトがJSONのリクエストボディとして送信されます。
+        axios.post('http://localhost:3015/api/v1/books', {
+            title: title,
+            author: author,
+            price: price,
+            publisher: publisher,
+            image_path: imagePath
+        })
         .then(function() {
             alert('書籍を登録しました。');
             navigation.navigate('/books');
         })
         .catch(function(error) {
+            errorMessage.innerHTML = '書籍を登録できませんでした。';
             console.error(error);
-            document.getElementById('register-message').textContent = '書籍を登録できませんでした。';
         });
-
-    /* ここまで registerBook() の中です。 */
+    });
 }

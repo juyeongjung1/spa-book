@@ -1,9 +1,7 @@
-﻿import { getLoginUser, isAdmin } from '../auth.js';
+import { getLoginUser, isAdmin } from '../auth.js';
 
-// トップページを表示する関数です。
+// トップページを表示するコンポーネントです。
 export function showHome() {
-    /* ここから showHome() の中です。 */
-
     let user = getLoginUser();
     let registerButton = '';
 
@@ -42,68 +40,42 @@ export function showHome() {
             </div>
         </div>`;
 
-    showMessage();
-    loadHomeInfo();
-
-    /* ここまで showHome() の中です。 */
-}
-
-/*
- * ここから showHome() の外です。
- * showMessage() は、ログイン・登録・更新・削除後のメッセージをトップページへ表示する関数です。
- */
-function showMessage() {
     let message = sessionStorage.getItem('appMessage');
-
     if (message) {
         document.getElementById('home-message').textContent = message;
         sessionStorage.removeItem('appMessage');
     }
-}
 
-// loadHomeInfo() は、トップページに表示する集計情報をAPIから取得する関数です。
-function loadHomeInfo() {
-    /* ここから loadHomeInfo() の中です。 */
-
+    // トップページに表示する集計情報をAPIから取得します。
     axios.get('http://localhost:3015/api/v1/books/summary')
-        .then(function(response) {
-            displayHomeInfo(response.data);
-        })
-        .catch(function(error) {
-            console.error(error);
-            document.getElementById('home-info-area').innerHTML = '<p class="error-message">トップページ情報を取得できませんでした。</p>';
-        });
+    .then(function(response) {
+        let summary = response.data;
+        let recentHtml = '';
 
-    /* ここまで loadHomeInfo() の中です。 */
-}
+        if (summary.recentBooks.length === 0) {
+            recentHtml = '<p>登録されている書籍はありません。</p>';
+        } else {
+            recentHtml = '<ul class="recent-book-list">';
+            summary.recentBooks.forEach(function(book) {
+                recentHtml += `<li>${book.title}（${book.author}）</li>`;
+            });
+            recentHtml += '</ul>';
+        }
 
-// displayHomeInfo() は、APIから受け取った集計情報をHTMLとして表示する関数です。
-function displayHomeInfo(summary) {
-    /* ここから displayHomeInfo() の中です。 */
-
-    let recentHtml = '';
-
-    if (summary.recentBooks.length === 0) {
-        recentHtml = '<p>登録されている書籍はありません。</p>';
-    } else {
-        recentHtml = '<ul class="recent-book-list">';
-        summary.recentBooks.forEach(function(book) {
-            recentHtml += `<li>${book.title}（${book.author}）</li>`;
-        });
-        recentHtml += '</ul>';
-    }
-
-    document.getElementById('home-info-area').innerHTML = `
-        <div class="home-info-list">
-            <div class="home-info-item">
-                <h3>登録書籍数</h3>
-                <p class="home-info-value">${summary.count}</p>
-            </div>
-            <div class="home-info-item">
-                <h3>最近登録された書籍</h3>
-                ${recentHtml}
-            </div>
-        </div>`;
-
-    /* ここまで displayHomeInfo() の中です。 */
+        document.getElementById('home-info-area').innerHTML = `
+            <div class="home-info-list">
+                <div class="home-info-item">
+                    <h3>登録書籍数</h3>
+                    <p class="home-info-value">${summary.count}</p>
+                </div>
+                <div class="home-info-item">
+                    <h3>最近登録された書籍</h3>
+                    ${recentHtml}
+                </div>
+            </div>`;
+    })
+    .catch(function(error) {
+        document.getElementById('home-info-area').innerHTML = '<p class="error-message">トップページ情報を取得できませんでした。</p>';
+        console.error(error);
+    });
 }
