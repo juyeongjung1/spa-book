@@ -1,45 +1,11 @@
 /* 書籍一覧画面を表示するコンポーネントです。 */
 export function showBookList() {
-    // これまでと同じ書籍一覧APIを呼び出します。
-    axios.get('http://localhost:3015/api/v1/books')
-    .then(response => {
-        showBookTable(response.data, '');
-    })
-    .catch(error => console.error('書籍一覧の取得に失敗しました:', error));
-}
-
-function showBookTable(books, keyword) {
-    let rows = '';
-
-    // 取得した書籍を1件ずつテーブルの行へ変換します。
-    books.forEach(book => {
-        rows += `
-            <tr>
-                <td><img src="${book.image_path || ''}" alt="${book.title}" class="book-image"></td>
-                <td>${book.id}</td>
-                <td>
-                    <a href="/books/${book.id}" class="book-detail-link">
-                        ${book.title}
-                    </a>
-                </td>
-                <td>${book.author}</td>
-                <td>${book.price}</td>
-                <td>${book.publisher || ''}</td>
-            </tr>`;
-    });
-
-    if (books.length === 0 && keyword) {
-        rows = '<tr><td colspan="6">条件に一致する書籍はありません。</td></tr>';
-    } else if (books.length === 0) {
-        rows = '<tr><td colspan="6">登録されている書籍はありません。</td></tr>';
-    }
-
-    // 作成したテーブルを、共通レイアウトのapp要素へ表示します。
+    // 最初に書籍一覧画面のHTMLをapp要素へ表示します。
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍一覧</h1>
         <div class="content-box">
             <div class="search-area">
-                <input type="text" id="keyword" placeholder="書籍名で検索" value="${keyword}">
+                <input type="text" id="keyword" placeholder="書籍名で検索">
                 <button type="button" class="btn btn-primary" id="searchBtn">検索</button>
             </div>
             <p>書籍名をクリックすると、書籍詳細画面へ移動します。</p>
@@ -54,17 +20,59 @@ function showBookTable(books, keyword) {
                         <th>出版社</th>
                     </tr>
                 </thead>
-                <tbody>${rows}</tbody>
+                <tbody id="bookList"></tbody>
             </table>
         </div>`;
 
+    /*
+     * 一覧機能のためのコードです。
+     * まずは検索条件なしで、すべての書籍を表示します。
+     */
+    // これまでと同じ書籍一覧APIを呼び出します。
+    axios.get('http://localhost:3015/api/v1/books')
+    .then(response => {
+        showBookTable(response.data);
+    })
+    .catch(error => console.error('書籍一覧の取得に失敗しました:', error));
+
+    /*
+     * キーワード検索機能のためのコードです。
+     * 一覧表示の動作を確認した後で、このクリックイベントを追加する想定です。
+     */
     document.getElementById('searchBtn').addEventListener('click', function() {
         let keyword = document.getElementById('keyword').value;
 
         // 3章の検索サンプルと同じように、入力値をクエリパラメータとして送ります。
         axios.get(`http://localhost:3015/api/v1/books?keyword=${keyword}`)
-        .then(response => showBookTable(response.data, keyword))
+        .then(response => showBookTable(response.data))
         .catch(error => console.error('書籍検索に失敗しました:', error));
+    });
+}
+
+function showBookTable(books) {
+    let bookList = document.getElementById('bookList');
+    bookList.innerHTML = '';
+
+    if (books.length === 0) {
+        bookList.innerHTML = '<tr><td colspan="6">表示する書籍はありません。</td></tr>';
+        return;
+    }
+
+    // 取得した書籍を1件ずつテーブルの行へ変換します。
+    books.forEach(book => {
+        bookList.insertAdjacentHTML('beforeend', `
+            <tr>
+                <td><img src="${book.image_path || ''}" alt="${book.title}" class="book-image"></td>
+                <td>${book.id}</td>
+                <td>
+                    <a href="/books/${book.id}" class="book-detail-link">
+                        ${book.title}
+                    </a>
+                </td>
+                <td>${book.author}</td>
+                <td>${book.price}</td>
+                <td>${book.publisher || ''}</td>
+            </tr>`);
     });
 
     /*
