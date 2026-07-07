@@ -1,4 +1,4 @@
-import { getLoginUser } from '../auth.js';
+﻿import { getLoginUser } from '../auth.js';
 
 // 書籍削除Modalを開く関数です。
 export function openDeleteModal(book) {
@@ -29,9 +29,7 @@ export function openDeleteModal(book) {
     modal.show();
 
     document.getElementById('delete-submit-button').addEventListener('click', function() {
-        /* ここからModal内の削除ボタンがクリックされた時の処理です。 */
         deleteBook(book.id, modal);
-        /* ここまでModal内の削除ボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで openDeleteModal() の中です。 */

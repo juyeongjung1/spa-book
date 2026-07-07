@@ -1,4 +1,4 @@
-import { getLoginUser, isAdmin } from '../auth.js';
+﻿import { getLoginUser, isAdmin } from '../auth.js';
 
 // トップページを表示する関数です。
 export function showHome() {
@@ -53,16 +53,12 @@ export function showHome() {
  * showMessage() は、ログイン・登録・更新・削除後のメッセージをトップページへ表示する関数です。
  */
 function showMessage() {
-    /* ここから showMessage() の中です。 */
-
     let message = sessionStorage.getItem('appMessage');
 
     if (message) {
         document.getElementById('home-message').textContent = message;
         sessionStorage.removeItem('appMessage');
     }
-
-    /* ここまで showMessage() の中です。 */
 }
 
 // loadHomeInfo() は、トップページに表示する集計情報をAPIから取得する関数です。

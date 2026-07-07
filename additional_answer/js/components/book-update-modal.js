@@ -1,4 +1,4 @@
-import { getLoginUser } from '../auth.js';
+﻿import { getLoginUser } from '../auth.js';
 import { showBookDetail } from './book-detail.js';
 
 // 書籍更新Modalを開く関数です。
@@ -49,9 +49,7 @@ export function openUpdateModal(book) {
     modal.show();
 
     document.getElementById('update-submit-button').addEventListener('click', function() {
-        /* ここからModal内の更新ボタンがクリックされた時の処理です。 */
         updateBook(book.id, modal);
-        /* ここまでModal内の更新ボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで openUpdateModal() の中です。 */

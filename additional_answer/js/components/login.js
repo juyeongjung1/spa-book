@@ -1,4 +1,4 @@
-import { saveLoginUser } from '../auth.js';
+﻿import { saveLoginUser } from '../auth.js';
 
 // ログイン画面を表示する関数です。
 export function showLogin() {
@@ -25,9 +25,7 @@ export function showLogin() {
         </div>`;
 
     document.getElementById('login-button').addEventListener('click', function() {
-        /* ここからログインボタンがクリックされた時の処理です。 */
         login();
-        /* ここまでログインボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで showLogin() の中です。 */

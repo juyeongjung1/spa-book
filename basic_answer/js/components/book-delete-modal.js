@@ -1,4 +1,4 @@
-// 書籍削除Modalを開く関数です。
+﻿// 書籍削除Modalを開く関数です。
 // 削除前に書籍名を表示し、利用者に確認してもらいます。
 export function openDeleteModal(book) {
     /* ここから openDeleteModal() の中です。 */
@@ -31,9 +31,7 @@ export function openDeleteModal(book) {
 
     // 削除ボタンを押した時だけ、DELETE APIを呼び出します。
     document.getElementById('delete-submit-button').addEventListener('click', function() {
-        /* ここからModal内の削除ボタンがクリックされた時の処理です。 */
         deleteBook(book.id, modal);
-        /* ここまでModal内の削除ボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで openDeleteModal() の中です。 */

@@ -1,4 +1,4 @@
-// 書籍一覧画面を表示する関数です。
+﻿// 書籍一覧画面を表示する関数です。
 export function showBookList() {
     /* ここから showBookList() の中です。 */
 
@@ -36,9 +36,7 @@ export function showBookList() {
      * 一覧表示の動作を確認した後で、このクリックイベントを追加する想定です。
      */
     document.getElementById('search-button').addEventListener('click', function() {
-        /* ここから検索ボタンがクリックされた時の処理です。 */
         loadBooks();
-        /* ここまで検索ボタンがクリックされた時の処理です。 */
     });
 
     /*
@@ -46,9 +44,7 @@ export function showBookList() {
      * 追加課題として、一覧表示・検索の後に実装する想定です。
      */
     document.getElementById('sort-button').addEventListener('click', function() {
-        /* ここから並び替えボタンがクリックされた時の処理です。 */
         loadBooks();
-        /* ここまで並び替えボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで showBookList() の中です。 */
@@ -59,16 +55,12 @@ export function showBookList() {
  * showMessage() は、登録・更新・削除後のメッセージを一覧画面へ表示する関数です。
  */
 function showMessage() {
-    /* ここから showMessage() の中です。 */
-
     let message = sessionStorage.getItem('appMessage');
 
     if (message) {
         document.getElementById('book-list-message').textContent = message;
         sessionStorage.removeItem('appMessage');
     }
-
-    /* ここまで showMessage() の中です。 */
 }
 
 // loadBooks() は、現在の検索条件・並び替え条件を使って書籍一覧APIを呼び出す関数です。

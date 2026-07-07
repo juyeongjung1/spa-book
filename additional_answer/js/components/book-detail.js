@@ -1,4 +1,4 @@
-import { isAdmin } from '../auth.js';
+﻿import { isAdmin } from '../auth.js';
 import { openUpdateModal } from './book-update-modal.js';
 import { openDeleteModal } from './book-delete-modal.js';
 
@@ -68,15 +68,11 @@ function displayBookDetail(book) {
 
     if (isAdmin()) {
         document.getElementById('update-button').addEventListener('click', function() {
-            /* ここから更新ボタンがクリックされた時の処理です。 */
             openUpdateModal(book);
-            /* ここまで更新ボタンがクリックされた時の処理です。 */
         });
 
         document.getElementById('delete-button').addEventListener('click', function() {
-            /* ここから削除ボタンがクリックされた時の処理です。 */
             openDeleteModal(book);
-            /* ここまで削除ボタンがクリックされた時の処理です。 */
         });
     }
 
@@ -85,14 +81,10 @@ function displayBookDetail(book) {
 
 // showMessage() は、更新後などに保存しておいたメッセージを詳細画面へ表示する関数です。
 function showMessage() {
-    /* ここから showMessage() の中です。 */
-
     let message = sessionStorage.getItem('appMessage');
 
     if (message) {
         document.getElementById('detail-message').textContent = message;
         sessionStorage.removeItem('appMessage');
     }
-
-    /* ここまで showMessage() の中です。 */
 }

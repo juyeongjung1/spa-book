@@ -1,4 +1,4 @@
-import { showBookDetail } from './book-detail.js';
+﻿import { showBookDetail } from './book-detail.js';
 
 // 書籍更新Modalを開く関数です。
 // 詳細画面で表示中のbookを受け取り、その値をフォームの初期値にします。
@@ -52,9 +52,7 @@ export function openUpdateModal(book) {
 
     // Modal内の更新ボタンを押した時、入力値をAPIへ送ります。
     document.getElementById('update-submit-button').addEventListener('click', function() {
-        /* ここからModal内の更新ボタンがクリックされた時の処理です。 */
         updateBook(book.id, modal);
-        /* ここまでModal内の更新ボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで openUpdateModal() の中です。 */

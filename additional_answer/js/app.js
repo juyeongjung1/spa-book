@@ -1,4 +1,4 @@
-import { getLoginUser, clearLoginUser, isAdmin } from './auth.js';
+﻿import { getLoginUser, clearLoginUser, isAdmin } from './auth.js';
 import { showHome } from './components/home.js';
 import { showBookList } from './components/book-list.js';
 import { showBookDetail } from './components/book-detail.js';
@@ -6,9 +6,7 @@ import { showBookRegister } from './components/book-register.js';
 import { showLogin } from './components/login.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    /* ここから、ページを最初に開いた時の処理です。 */
     showPage(window.location.pathname);
-    /* ここまで、ページを最初に開いた時の処理です。 */
 });
 
 navigation.addEventListener('navigate', function(event) {
@@ -27,9 +25,7 @@ navigation.addEventListener('navigate', function(event) {
 
     event.intercept({
         handler: function() {
-            /* ここから、Navigation APIで置き換えた画面表示処理です。 */
             showPage(url.pathname);
-            /* ここまで、Navigation APIで置き換えた画面表示処理です。 */
         }
     });
 
@@ -38,17 +34,11 @@ navigation.addEventListener('navigate', function(event) {
 
 // setupLogoutButton() は、ログアウトボタンにクリックイベントを登録する関数です。
 function setupLogoutButton() {
-    /* ここから setupLogoutButton() の中です。 */
-
     document.getElementById('logout-button').addEventListener('click', function() {
-        /* ここからログアウトボタンがクリックされた時の処理です。 */
         clearLoginUser();
         sessionStorage.setItem('appMessage', 'ログアウトしました。');
         navigation.navigate('/login');
-        /* ここまでログアウトボタンがクリックされた時の処理です。 */
     });
-
-    /* ここまで setupLogoutButton() の中です。 */
 }
 
 // showPage() は、URLのパスと表示する疑似画面を対応させる関数です。

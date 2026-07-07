@@ -1,4 +1,4 @@
-/* 書籍一覧画面を表示するコンポーネントです。 */
+﻿/* 書籍一覧画面を表示するコンポーネントです。 */
 export function showBookList() {
     /* ここから showBookList() の中です。 */
 
@@ -42,7 +42,6 @@ export function showBookList() {
      * 一覧表示の動作を確認した後で、このクリックイベントを追加する想定です。
      */
     document.getElementById('searchBtn').addEventListener('click', function() {
-        /* ここから検索ボタンがクリックされた時の処理です。 */
 
         let keyword = document.getElementById('keyword').value;
 
@@ -51,7 +50,6 @@ export function showBookList() {
         .then(response => showBookTable(response.data))
         .catch(error => console.error('書籍検索に失敗しました:', error));
 
-        /* ここまで検索ボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで showBookList() の中です。 */
@@ -98,12 +96,10 @@ function showBookTable(books) {
     // forEachを使い、取得した書籍名リンクへ1つずつクリックイベントを登録します。
     detailLinks.forEach(detailLink => {
         detailLink.addEventListener('click', function(event) {
-            /* ここから書籍名リンクがクリックされた時の処理です。 */
 
             event.preventDefault();
             navigation.navigate(detailLink.getAttribute('href'));
 
-            /* ここまで書籍名リンクがクリックされた時の処理です。 */
         });
     });
 

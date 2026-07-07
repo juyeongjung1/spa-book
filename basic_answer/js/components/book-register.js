@@ -1,4 +1,4 @@
-// 書籍登録画面を表示する関数です。
+﻿// 書籍登録画面を表示する関数です。
 export function showBookRegister() {
     /* ここから showBookRegister() の中です。 */
 
@@ -36,9 +36,7 @@ export function showBookRegister() {
 
     // 登録ボタンを押した時だけ、入力値を集めてAPIへ送信します。
     document.getElementById('register-button').addEventListener('click', function() {
-        /* ここから登録ボタンがクリックされた時の処理です。 */
         registerBook();
-        /* ここまで登録ボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで showBookRegister() の中です。 */

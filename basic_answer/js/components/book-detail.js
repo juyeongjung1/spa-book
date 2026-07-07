@@ -1,4 +1,4 @@
-import { openUpdateModal } from './book-update-modal.js';
+﻿import { openUpdateModal } from './book-update-modal.js';
 import { openDeleteModal } from './book-delete-modal.js';
 
 // 書籍詳細画面を表示する関数です。
@@ -58,16 +58,12 @@ function displayBookDetail(book) {
 
     // 更新ボタンを押したら、現在表示しているbookを使って更新Modalを開きます。
     document.getElementById('update-button').addEventListener('click', function() {
-        /* ここから更新ボタンがクリックされた時の処理です。 */
         openUpdateModal(book);
-        /* ここまで更新ボタンがクリックされた時の処理です。 */
     });
 
     // 削除ボタンを押したら、現在表示しているbookを使って削除Modalを開きます。
     document.getElementById('delete-button').addEventListener('click', function() {
-        /* ここから削除ボタンがクリックされた時の処理です。 */
         openDeleteModal(book);
-        /* ここまで削除ボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで displayBookDetail() の中です。 */

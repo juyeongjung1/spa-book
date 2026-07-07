@@ -1,4 +1,4 @@
-import { getLoginUser } from '../auth.js';
+﻿import { getLoginUser } from '../auth.js';
 
 // 書籍登録画面を表示する関数です。
 export function showBookRegister() {
@@ -37,15 +37,11 @@ export function showBookRegister() {
         </div>`;
 
     document.getElementById('image_path').addEventListener('input', function() {
-        /* ここから画像パスが入力された時の処理です。 */
         showPreview();
-        /* ここまで画像パスが入力された時の処理です。 */
     });
 
     document.getElementById('register-button').addEventListener('click', function() {
-        /* ここから登録ボタンがクリックされた時の処理です。 */
         registerBook();
-        /* ここまで登録ボタンがクリックされた時の処理です。 */
     });
 
     /* ここまで showBookRegister() の中です。 */

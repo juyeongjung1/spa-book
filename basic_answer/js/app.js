@@ -1,15 +1,11 @@
-import { showHome } from './components/home.js';
+﻿import { showHome } from './components/home.js';
 import { showBookList } from './components/book-list.js';
 import { showBookDetail } from './components/book-detail.js';
 import { showBookRegister } from './components/book-register.js';
 
 // 最初にページを開いた時、現在のURLに対応する画面を表示します。
 document.addEventListener('DOMContentLoaded', function() {
-    /* ここから、ページを最初に開いた時の処理です。 */
-
     showPage(window.location.pathname);
-
-    /* ここまで、ページを最初に開いた時の処理です。 */
 });
 
 // 画面内のリンクをクリックした時に、ブラウザの通常遷移ではなくSPAの画面切り替えとして処理します。
@@ -32,9 +28,7 @@ navigation.addEventListener('navigate', function(event) {
     // URLだけを変更し、実際の表示内容はshowPage()で切り替えます。
     event.intercept({
         handler: function() {
-            /* ここから、Navigation APIで置き換えた画面表示処理です。 */
             showPage(url.pathname);
-            /* ここまで、Navigation APIで置き換えた画面表示処理です。 */
         }
     });
 
