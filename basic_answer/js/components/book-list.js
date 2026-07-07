@@ -1,5 +1,7 @@
 /* 書籍一覧画面を表示するコンポーネントです。 */
 export function showBookList() {
+    /* ここから showBookList() の中です。 */
+
     // 最初に書籍一覧画面のHTMLをapp要素へ表示します。
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍一覧</h1>
@@ -40,16 +42,28 @@ export function showBookList() {
      * 一覧表示の動作を確認した後で、このクリックイベントを追加する想定です。
      */
     document.getElementById('searchBtn').addEventListener('click', function() {
+        /* ここから検索ボタンがクリックされた時の処理です。 */
+
         let keyword = document.getElementById('keyword').value;
 
         // 3章の検索サンプルと同じように、入力値をクエリパラメータとして送ります。
         axios.get(`http://localhost:3015/api/v1/books?keyword=${keyword}`)
         .then(response => showBookTable(response.data))
         .catch(error => console.error('書籍検索に失敗しました:', error));
+
+        /* ここまで検索ボタンがクリックされた時の処理です。 */
     });
+
+    /* ここまで showBookList() の中です。 */
 }
 
+/*
+ * ここから showBookList() の外です。
+ * showBookTable() は、APIから受け取った書籍一覧を表に表示するための関数です。
+ */
 function showBookTable(books) {
+    /* ここから showBookTable() の中です。 */
+
     let bookList = document.getElementById('bookList');
     bookList.innerHTML = '';
 
@@ -84,8 +98,14 @@ function showBookTable(books) {
     // forEachを使い、取得した書籍名リンクへ1つずつクリックイベントを登録します。
     detailLinks.forEach(detailLink => {
         detailLink.addEventListener('click', function(event) {
+            /* ここから書籍名リンクがクリックされた時の処理です。 */
+
             event.preventDefault();
             navigation.navigate(detailLink.getAttribute('href'));
+
+            /* ここまで書籍名リンクがクリックされた時の処理です。 */
         });
     });
+
+    /* ここまで showBookTable() の中です。 */
 }
