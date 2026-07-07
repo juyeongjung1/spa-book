@@ -1,6 +1,6 @@
 // 書籍一覧画面を表示する関数です。
 export function showBookList() {
-    // まず検索欄と一覧表示用の空の領域を作成します。
+    // 検索欄と一覧表示用の領域を作成します。
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍一覧</h1>
         <div class="content-box">
@@ -26,15 +26,15 @@ function loadBooks() {
     let keyword = document.getElementById('keyword').value;
     let url = 'http://localhost:3015/api/v1/books';
 
-    // キーワードが入力されている場合だけ、クエリ文字列を付けて検索APIとして呼び出します。
+    // キーワードがある場合は、Ex3と同じようにURLの後ろへクエリパラメータを付けます。
     if (keyword) {
-        url += '?keyword=' + encodeURIComponent(keyword);
+        url += '?keyword=' + keyword;
     }
 
-    // AxiosでAPIを呼び出し、取得できたデータをdisplayBooks()に渡します。
+    // AxiosでAPIを呼び出し、取得したデータを表示用の関数へ渡します。
     axios.get(url)
         .then(function(response) {
-            displayBooks(response.data, keyword);
+            showBookTable(response.data, keyword);
         })
         .catch(function(error) {
             console.error(error);
@@ -42,11 +42,11 @@ function loadBooks() {
         });
 }
 
-// APIから受け取った書籍データを、HTMLの表に変換して画面へ表示する関数です。
-function displayBooks(books, keyword) {
+// APIから受け取った書籍データを一覧表として表示する関数です。
+function showBookTable(books, keyword) {
     let listArea = document.getElementById('book-list-area');
 
-    // 0件の場合は、検索結果0件なのか、登録データ自体が0件なのかでメッセージを変えます。
+    // 0件の場合は、表ではなくメッセージを表示します。
     if (books.length === 0) {
         if (keyword) {
             listArea.innerHTML = '<p>条件に一致する書籍はありません。</p>';
@@ -56,8 +56,8 @@ function displayBooks(books, keyword) {
         return;
     }
 
-    // 一覧表の先頭部分を作成します。
-    let html = `
+    // まず空のtbodyを持つ表を作成します。
+    listArea.innerHTML = `
         <table class="book-table">
             <thead>
                 <tr>
@@ -69,11 +69,14 @@ function displayBooks(books, keyword) {
                     <th>出版社</th>
                 </tr>
             </thead>
-            <tbody>`;
+            <tbody id="book-list"></tbody>
+        </table>`;
 
-    // 配列の1件ずつを<tr>に変換し、表の行として追加します。
+    let bookList = document.getElementById('book-list');
+    bookList.innerHTML = '';
+    // Ex3と同じように、1件ずつtrを追加します。
     books.forEach(function(book) {
-        html += `
+        bookList.insertAdjacentHTML('beforeend', `
             <tr>
                 <td><img src="${book.image_path || ''}" alt="${book.title}" class="book-image"></td>
                 <td>${book.id}</td>
@@ -81,13 +84,6 @@ function displayBooks(books, keyword) {
                 <td>${book.author}</td>
                 <td>${book.price}</td>
                 <td>${book.publisher || ''}</td>
-            </tr>`;
+            </tr>`);
     });
-
-    html += `
-            </tbody>
-        </table>`;
-
-    // 完成したHTML文字列を、一覧表示用の領域へ入れます。
-    listArea.innerHTML = html;
 }

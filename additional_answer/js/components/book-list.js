@@ -46,23 +46,24 @@ function loadBooks() {
     let keyword = document.getElementById('keyword').value;
     let sort = document.getElementById('sort').value;
     let url = 'http://localhost:3015/api/v1/books';
-    let params = [];
 
+    // キーワードがある場合は、Ex3と同じようにURLの後ろへクエリパラメータを付けます。
     if (keyword) {
-        params.push('keyword=' + encodeURIComponent(keyword));
+        url += '?keyword=' + keyword;
     }
 
+    // 並び替え条件がある場合は、検索条件の有無に合わせて ? または & でつなげます。
     if (sort) {
-        params.push('sort=' + encodeURIComponent(sort));
-    }
-
-    if (params.length > 0) {
-        url += '?' + params.join('&');
+        if (keyword) {
+            url += '&sort=' + sort;
+        } else {
+            url += '?sort=' + sort;
+        }
     }
 
     axios.get(url)
         .then(function(response) {
-            displayBooks(response.data, keyword);
+            showBookTable(response.data, keyword);
         })
         .catch(function(error) {
             console.error(error);
@@ -70,9 +71,11 @@ function loadBooks() {
         });
 }
 
-function displayBooks(books, keyword) {
+// APIから受け取った書籍データを一覧表として表示する関数です。
+function showBookTable(books, keyword) {
     let listArea = document.getElementById('book-list-area');
 
+    // 0件の場合は、表ではなくメッセージを表示します。
     if (books.length === 0) {
         if (keyword) {
             listArea.innerHTML = '<p>条件に一致する書籍はありません。</p>';
@@ -82,7 +85,8 @@ function displayBooks(books, keyword) {
         return;
     }
 
-    let html = `
+    // まず空のtbodyを持つ表を作成します。
+    listArea.innerHTML = `
         <table class="book-table">
             <thead>
                 <tr>
@@ -94,10 +98,14 @@ function displayBooks(books, keyword) {
                     <th>出版社</th>
                 </tr>
             </thead>
-            <tbody>`;
+            <tbody id="book-list"></tbody>
+        </table>`;
 
+    let bookList = document.getElementById('book-list');
+    bookList.innerHTML = '';
+    // Ex3と同じように、1件ずつtrを追加します。
     books.forEach(function(book) {
-        html += `
+        bookList.insertAdjacentHTML('beforeend', `
             <tr>
                 <td><img src="${book.image_path || ''}" alt="${book.title}" class="book-image"></td>
                 <td>${book.id}</td>
@@ -105,12 +113,6 @@ function displayBooks(books, keyword) {
                 <td>${book.author}</td>
                 <td>${book.price}</td>
                 <td>${book.publisher || ''}</td>
-            </tr>`;
+            </tr>`);
     });
-
-    html += `
-            </tbody>
-        </table>`;
-
-    listArea.innerHTML = html;
 }
