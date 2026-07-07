@@ -1,5 +1,7 @@
 // 書籍一覧画面を表示する関数です。
 export function showBookList() {
+    /* ここから showBookList() の中です。 */
+
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍一覧</h1>
         <div class="content-box">
@@ -21,28 +23,58 @@ export function showBookList() {
             <div id="book-list-area"></div>
         </div>`;
 
-    document.getElementById('search-button').addEventListener('click', function() {
-        loadBooks();
-    });
-
-    document.getElementById('sort-button').addEventListener('click', function() {
-        loadBooks();
-    });
-
     showMessage();
+
+    /*
+     * 一覧機能のためのコードです。
+     * まずは検索条件なし、並び替え指定なしで書籍を表示します。
+     */
     loadBooks();
+
+    /*
+     * キーワード検索機能のためのコードです。
+     * 一覧表示の動作を確認した後で、このクリックイベントを追加する想定です。
+     */
+    document.getElementById('search-button').addEventListener('click', function() {
+        /* ここから検索ボタンがクリックされた時の処理です。 */
+        loadBooks();
+        /* ここまで検索ボタンがクリックされた時の処理です。 */
+    });
+
+    /*
+     * 並び替え機能のためのコードです。
+     * 追加課題として、一覧表示・検索の後に実装する想定です。
+     */
+    document.getElementById('sort-button').addEventListener('click', function() {
+        /* ここから並び替えボタンがクリックされた時の処理です。 */
+        loadBooks();
+        /* ここまで並び替えボタンがクリックされた時の処理です。 */
+    });
+
+    /* ここまで showBookList() の中です。 */
 }
 
+/*
+ * ここから showBookList() の外です。
+ * showMessage() は、登録・更新・削除後のメッセージを一覧画面へ表示する関数です。
+ */
 function showMessage() {
+    /* ここから showMessage() の中です。 */
+
     let message = sessionStorage.getItem('appMessage');
 
     if (message) {
         document.getElementById('book-list-message').textContent = message;
         sessionStorage.removeItem('appMessage');
     }
+
+    /* ここまで showMessage() の中です。 */
 }
 
+// loadBooks() は、現在の検索条件・並び替え条件を使って書籍一覧APIを呼び出す関数です。
 function loadBooks() {
+    /* ここから loadBooks() の中です。 */
+
     let keyword = document.getElementById('keyword').value;
     let sort = document.getElementById('sort').value;
     let url = 'http://localhost:3015/api/v1/books';
@@ -63,25 +95,25 @@ function loadBooks() {
 
     axios.get(url)
         .then(function(response) {
-            showBookTable(response.data, keyword);
+            showBookTable(response.data);
         })
         .catch(function(error) {
             console.error(error);
             document.getElementById('book-list-error').textContent = '書籍一覧を取得できませんでした。';
         });
+
+    /* ここまで loadBooks() の中です。 */
 }
 
 // APIから受け取った書籍データを一覧表として表示する関数です。
-function showBookTable(books, keyword) {
+function showBookTable(books) {
+    /* ここから showBookTable() の中です。 */
+
     let listArea = document.getElementById('book-list-area');
 
     // 0件の場合は、表ではなくメッセージを表示します。
     if (books.length === 0) {
-        if (keyword) {
-            listArea.innerHTML = '<p>条件に一致する書籍はありません。</p>';
-        } else {
-            listArea.innerHTML = '<p>登録されている書籍はありません。</p>';
-        }
+        listArea.innerHTML = '<p>表示する書籍はありません。</p>';
         return;
     }
 
@@ -115,4 +147,6 @@ function showBookTable(books, keyword) {
                 <td>${book.publisher || ''}</td>
             </tr>`);
     });
+
+    /* ここまで showBookTable() の中です。 */
 }

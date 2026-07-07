@@ -3,6 +3,8 @@ import { showBookDetail } from './book-detail.js';
 
 // 書籍更新Modalを開く関数です。
 export function openUpdateModal(book) {
+    /* ここから openUpdateModal() の中です。 */
+
     document.getElementById('modal-area').innerHTML = `
         <div class="modal fade" id="updateModal" tabindex="-1">
             <div class="modal-dialog">
@@ -47,11 +49,21 @@ export function openUpdateModal(book) {
     modal.show();
 
     document.getElementById('update-submit-button').addEventListener('click', function() {
+        /* ここからModal内の更新ボタンがクリックされた時の処理です。 */
         updateBook(book.id, modal);
+        /* ここまでModal内の更新ボタンがクリックされた時の処理です。 */
     });
+
+    /* ここまで openUpdateModal() の中です。 */
 }
 
+/*
+ * ここから openUpdateModal() の外です。
+ * updateBook() は、更新Modalの入力値を読み取って更新APIを呼び出す関数です。
+ */
 function updateBook(id, modal) {
+    /* ここから updateBook() の中です。 */
+
     let user = getLoginUser();
     let book = {
         title: document.getElementById('update-title').value,
@@ -78,9 +90,14 @@ function updateBook(id, modal) {
             console.error(error);
             document.getElementById('update-message').textContent = '書籍を更新できませんでした。';
         });
+
+    /* ここまで updateBook() の中です。 */
 }
 
+// validateBook() は、更新APIを呼び出す前に入力値を確認する追加機能の関数です。
 function validateBook(book) {
+    /* ここから validateBook() の中です。 */
+
     if (!book.title) {
         return '書籍名を入力してください。';
     }
@@ -97,5 +114,6 @@ function validateBook(book) {
         return '価格は1以上の数値を入力してください。';
     }
 
+    /* ここまで validateBook() の中です。 */
     return '';
 }

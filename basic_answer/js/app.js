@@ -5,11 +5,17 @@ import { showBookRegister } from './components/book-register.js';
 
 // 最初にページを開いた時、現在のURLに対応する画面を表示します。
 document.addEventListener('DOMContentLoaded', function() {
+    /* ここから、ページを最初に開いた時の処理です。 */
+
     showPage(window.location.pathname);
+
+    /* ここまで、ページを最初に開いた時の処理です。 */
 });
 
 // 画面内のリンクをクリックした時に、ブラウザの通常遷移ではなくSPAの画面切り替えとして処理します。
 navigation.addEventListener('navigate', function(event) {
+    /* ここから、リンク移動・戻る・進むが発生した時の処理です。 */
+
     let url = new URL(event.destination.url);
 
     // 外部サイトへの移動など、このアプリで処理しない遷移はそのままブラウザに任せます。
@@ -26,13 +32,19 @@ navigation.addEventListener('navigate', function(event) {
     // URLだけを変更し、実際の表示内容はshowPage()で切り替えます。
     event.intercept({
         handler: function() {
+            /* ここから、Navigation APIで置き換えた画面表示処理です。 */
             showPage(url.pathname);
+            /* ここまで、Navigation APIで置き換えた画面表示処理です。 */
         }
     });
+
+    /* ここまで、リンク移動・戻る・進むが発生した時の処理です。 */
 });
 
 // URLのパスと表示する疑似画面を対応させる関数です。
 function showPage(path) {
+    /* ここから showPage() の中です。 */
+
     // 画面を切り替える時は、前の画面で作成したModalを消しておきます。
     document.getElementById('modal-area').innerHTML = '';
 
@@ -67,4 +79,6 @@ function showPage(path) {
         <div class="content-box">
             <p>指定されたURLに対応する画面はありません。</p>
         </div>`;
+
+    /* ここまで showPage() の中です。 */
 }

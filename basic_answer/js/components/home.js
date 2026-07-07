@@ -1,6 +1,8 @@
 // トップページを表示する関数です。
 // この画面はスターターキットの時点で完成済みにしておき、SPAの表示切り替えを確認する入口にします。
 export function showHome() {
+    /* ここから showHome() の中です。 */
+
     // id="app" の中身を、トップページ用のHTMLに差し替えます。
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">トップページ</h1>
@@ -30,4 +32,6 @@ export function showHome() {
                 </div>
             </div>
         </div>`;
+
+    /* ここまで showHome() の中です。 */
 }

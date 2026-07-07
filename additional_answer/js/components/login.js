@@ -2,6 +2,8 @@ import { saveLoginUser } from '../auth.js';
 
 // ログイン画面を表示する関数です。
 export function showLogin() {
+    /* ここから showLogin() の中です。 */
+
     document.getElementById('modal-area').innerHTML = '';
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">ログイン</h1>
@@ -23,11 +25,21 @@ export function showLogin() {
         </div>`;
 
     document.getElementById('login-button').addEventListener('click', function() {
+        /* ここからログインボタンがクリックされた時の処理です。 */
         login();
+        /* ここまでログインボタンがクリックされた時の処理です。 */
     });
+
+    /* ここまで showLogin() の中です。 */
 }
 
+/*
+ * ここから showLogin() の外です。
+ * login() は、入力されたログインIDとパスワードを使ってログインAPIを呼び出す関数です。
+ */
 function login() {
+    /* ここから login() の中です。 */
+
     let loginData = {
         login_id: document.getElementById('login_id').value,
         password: document.getElementById('password').value
@@ -48,4 +60,6 @@ function login() {
             console.error(error);
             document.getElementById('login-message').textContent = 'ログインIDまたはパスワードが正しくありません。';
         });
+
+    /* ここまで login() の中です。 */
 }

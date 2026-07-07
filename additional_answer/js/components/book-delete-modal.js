@@ -2,6 +2,8 @@ import { getLoginUser } from '../auth.js';
 
 // 書籍削除Modalを開く関数です。
 export function openDeleteModal(book) {
+    /* ここから openDeleteModal() の中です。 */
+
     document.getElementById('modal-area').innerHTML = `
         <div class="modal fade" id="deleteModal" tabindex="-1">
             <div class="modal-dialog">
@@ -27,11 +29,21 @@ export function openDeleteModal(book) {
     modal.show();
 
     document.getElementById('delete-submit-button').addEventListener('click', function() {
+        /* ここからModal内の削除ボタンがクリックされた時の処理です。 */
         deleteBook(book.id, modal);
+        /* ここまでModal内の削除ボタンがクリックされた時の処理です。 */
     });
+
+    /* ここまで openDeleteModal() の中です。 */
 }
 
+/*
+ * ここから openDeleteModal() の外です。
+ * deleteBook() は、指定された書籍を削除するAPIを呼び出す関数です。
+ */
 function deleteBook(id, modal) {
+    /* ここから deleteBook() の中です。 */
+
     let user = getLoginUser();
 
     axios.delete('http://localhost:3015/api/v1/books/' + id, {
@@ -48,4 +60,6 @@ function deleteBook(id, modal) {
             console.error(error);
             document.getElementById('delete-message').textContent = '書籍を削除できませんでした。';
         });
+
+    /* ここまで deleteBook() の中です。 */
 }

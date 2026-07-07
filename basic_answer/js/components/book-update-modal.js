@@ -3,6 +3,8 @@ import { showBookDetail } from './book-detail.js';
 // 書籍更新Modalを開く関数です。
 // 詳細画面で表示中のbookを受け取り、その値をフォームの初期値にします。
 export function openUpdateModal(book) {
+    /* ここから openUpdateModal() の中です。 */
+
     // Modalはindex.htmlに直接書かず、必要になった時にJavaScriptで作成します。
     document.getElementById('modal-area').innerHTML = `
         <div class="modal fade" id="updateModal" tabindex="-1">
@@ -50,12 +52,22 @@ export function openUpdateModal(book) {
 
     // Modal内の更新ボタンを押した時、入力値をAPIへ送ります。
     document.getElementById('update-submit-button').addEventListener('click', function() {
+        /* ここからModal内の更新ボタンがクリックされた時の処理です。 */
         updateBook(book.id, modal);
+        /* ここまでModal内の更新ボタンがクリックされた時の処理です。 */
     });
+
+    /* ここまで openUpdateModal() の中です。 */
 }
 
+/*
+ * ここから openUpdateModal() の外です。
+ * updateBook() は、更新Modalの入力値を読み取って更新APIを呼び出す関数です。
+ */
 // 更新Modalの入力値を取得し、既存の書籍情報を更新する関数です。
 function updateBook(id, modal) {
+    /* ここから updateBook() の中です。 */
+
     // APIへ送信するため、フォームの値をbookオブジェクトにまとめます。
     let book = {
         title: document.getElementById('update-title').value,
@@ -82,4 +94,6 @@ function updateBook(id, modal) {
             console.error(error);
             document.getElementById('update-message').textContent = '書籍を更新できませんでした。';
         });
+
+    /* ここまで updateBook() の中です。 */
 }

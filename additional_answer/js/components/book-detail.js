@@ -4,6 +4,8 @@ import { openDeleteModal } from './book-delete-modal.js';
 
 // 書籍詳細画面を表示する関数です。
 export function showBookDetail(id) {
+    /* ここから showBookDetail() の中です。 */
+
     axios.get('http://localhost:3015/api/v1/books/' + id)
         .then(function(response) {
             displayBookDetail(response.data);
@@ -19,11 +21,20 @@ export function showBookDetail(id) {
                     </div>
                 </div>`;
         });
+
+    /* ここまで showBookDetail() の中です。 */
 }
 
+/*
+ * ここから showBookDetail() の外です。
+ * displayBookDetail() は、APIから受け取った書籍1件分を詳細画面として表示する関数です。
+ */
 function displayBookDetail(book) {
+    /* ここから displayBookDetail() の中です。 */
+
     let adminButtons = '';
 
+    // 管理者の場合だけ、更新・削除ボタンを表示します。
     if (isAdmin()) {
         adminButtons = `
             <button type="button" class="btn btn-primary" id="update-button">更新</button>
@@ -57,20 +68,31 @@ function displayBookDetail(book) {
 
     if (isAdmin()) {
         document.getElementById('update-button').addEventListener('click', function() {
+            /* ここから更新ボタンがクリックされた時の処理です。 */
             openUpdateModal(book);
+            /* ここまで更新ボタンがクリックされた時の処理です。 */
         });
 
         document.getElementById('delete-button').addEventListener('click', function() {
+            /* ここから削除ボタンがクリックされた時の処理です。 */
             openDeleteModal(book);
+            /* ここまで削除ボタンがクリックされた時の処理です。 */
         });
     }
+
+    /* ここまで displayBookDetail() の中です。 */
 }
 
+// showMessage() は、更新後などに保存しておいたメッセージを詳細画面へ表示する関数です。
 function showMessage() {
+    /* ここから showMessage() の中です。 */
+
     let message = sessionStorage.getItem('appMessage');
 
     if (message) {
         document.getElementById('detail-message').textContent = message;
         sessionStorage.removeItem('appMessage');
     }
+
+    /* ここまで showMessage() の中です。 */
 }

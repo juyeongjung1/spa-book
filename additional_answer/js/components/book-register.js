@@ -2,6 +2,8 @@ import { getLoginUser } from '../auth.js';
 
 // 書籍登録画面を表示する関数です。
 export function showBookRegister() {
+    /* ここから showBookRegister() の中です。 */
+
     document.getElementById('app').innerHTML = `
         <h1 class="page-title">書籍登録</h1>
         <div class="content-box">
@@ -35,15 +37,27 @@ export function showBookRegister() {
         </div>`;
 
     document.getElementById('image_path').addEventListener('input', function() {
+        /* ここから画像パスが入力された時の処理です。 */
         showPreview();
+        /* ここまで画像パスが入力された時の処理です。 */
     });
 
     document.getElementById('register-button').addEventListener('click', function() {
+        /* ここから登録ボタンがクリックされた時の処理です。 */
         registerBook();
+        /* ここまで登録ボタンがクリックされた時の処理です。 */
     });
+
+    /* ここまで showBookRegister() の中です。 */
 }
 
+/*
+ * ここから showBookRegister() の外です。
+ * showPreview() は、入力された画像パスを使ってプレビューを表示する追加機能の関数です。
+ */
 function showPreview() {
+    /* ここから showPreview() の中です。 */
+
     let imagePath = document.getElementById('image_path').value;
     let preview = document.getElementById('preview-image');
 
@@ -55,9 +69,14 @@ function showPreview() {
 
     preview.src = imagePath;
     preview.style.display = 'block';
+
+    /* ここまで showPreview() の中です。 */
 }
 
+// registerBook() は、入力値を読み取って登録APIを呼び出す関数です。
 function registerBook() {
+    /* ここから registerBook() の中です。 */
+
     let user = getLoginUser();
     let book = {
         title: document.getElementById('title').value,
@@ -83,9 +102,14 @@ function registerBook() {
             console.error(error);
             document.getElementById('register-message').textContent = '書籍を登録できませんでした。';
         });
+
+    /* ここまで registerBook() の中です。 */
 }
 
+// validateBook() は、登録APIを呼び出す前に入力値を確認する追加機能の関数です。
 function validateBook(book) {
+    /* ここから validateBook() の中です。 */
+
     if (!book.title) {
         return '書籍名を入力してください。';
     }
@@ -102,5 +126,6 @@ function validateBook(book) {
         return '価格は1以上の数値を入力してください。';
     }
 
+    /* ここまで validateBook() の中です。 */
     return '';
 }

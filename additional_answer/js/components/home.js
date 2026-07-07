@@ -2,6 +2,8 @@ import { getLoginUser, isAdmin } from '../auth.js';
 
 // トップページを表示する関数です。
 export function showHome() {
+    /* ここから showHome() の中です。 */
+
     let user = getLoginUser();
     let registerButton = '';
 
@@ -42,18 +44,31 @@ export function showHome() {
 
     showMessage();
     loadHomeInfo();
+
+    /* ここまで showHome() の中です。 */
 }
 
+/*
+ * ここから showHome() の外です。
+ * showMessage() は、ログイン・登録・更新・削除後のメッセージをトップページへ表示する関数です。
+ */
 function showMessage() {
+    /* ここから showMessage() の中です。 */
+
     let message = sessionStorage.getItem('appMessage');
 
     if (message) {
         document.getElementById('home-message').textContent = message;
         sessionStorage.removeItem('appMessage');
     }
+
+    /* ここまで showMessage() の中です。 */
 }
 
+// loadHomeInfo() は、トップページに表示する集計情報をAPIから取得する関数です。
 function loadHomeInfo() {
+    /* ここから loadHomeInfo() の中です。 */
+
     axios.get('http://localhost:3015/api/v1/books/summary')
         .then(function(response) {
             displayHomeInfo(response.data);
@@ -62,9 +77,14 @@ function loadHomeInfo() {
             console.error(error);
             document.getElementById('home-info-area').innerHTML = '<p class="error-message">トップページ情報を取得できませんでした。</p>';
         });
+
+    /* ここまで loadHomeInfo() の中です。 */
 }
 
+// displayHomeInfo() は、APIから受け取った集計情報をHTMLとして表示する関数です。
 function displayHomeInfo(summary) {
+    /* ここから displayHomeInfo() の中です。 */
+
     let recentHtml = '';
 
     if (summary.recentBooks.length === 0) {
@@ -88,4 +108,6 @@ function displayHomeInfo(summary) {
                 ${recentHtml}
             </div>
         </div>`;
+
+    /* ここまで displayHomeInfo() の中です。 */
 }
